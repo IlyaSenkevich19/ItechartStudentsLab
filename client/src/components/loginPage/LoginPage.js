@@ -2,7 +2,17 @@ import React from 'react';
 
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
+import history from '../../history'
+
 const LoginPage = () => {
+
+    const onSignUpPage = () => {
+        history.push('/sign-up');
+    };
+    const onMainPage = () => {
+        history.push('/');
+    };
+
     return (
         <Form className='login-form'>
             <h1 className='text-center'>
@@ -22,7 +32,10 @@ const LoginPage = () => {
                 Log in
             </Button>
             <div className='text-center'>
-                <a href='/sign-up'>Sign up</a>
+                <a onClick={onSignUpPage} href='/sign-up'>Sign up</a>
+            </div>
+            <div className='text-center'>
+                <a onClick={onMainPage} href='/'>Back to Main Page</a>
             </div>
         </Form>
     );
