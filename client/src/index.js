@@ -10,17 +10,19 @@ import './App.css'
 import * as serviceWorker from './serviceWorker';
 import LoginPage from './components/loginPage/LoginPage';
 import SignUpPage from './components/signUpPage/SignUpPage';
+import CreateVoting from './components/createVotingPage/CreateVoting'
 
 
 
 ReactDOM.render(
-    <Router history={history}>
-        <Switch>
-            <Route path='/log-in' component={LoginPage} />
-            <Route path='/sign-up' component={SignUpPage} />
-            <Route path='/' component={App} exact />
-        </Switch>
-    </Router>
+    // <Router history={history}>
+    //     <Switch>
+    //         <Route path='/log-in' component={LoginPage} />
+    //         <Route path='/sign-up' component={SignUpPage} />
+    //         <Route path='/' component={App} exact />
+    //     </Switch>
+    // </Router>
+    <CreateVoting />
     , document.getElementById('root'));
 
 
