@@ -13,11 +13,12 @@ class Vote extends React.PureComponent {
     }
 
     render() {
+        console.log(this.props.vote.text)
         return (
             <div>
                 <div className='row jumbotron '>
                     <div className='col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-10'>
-                        <div className='lead'> </div>
+                        <div className='lead'>{this.props.vote.text} </div>
                     </div>
                     <div className=' col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2'>
                         <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Info</Button>
@@ -31,6 +32,7 @@ class Vote extends React.PureComponent {
                                <div>Общее число голосов</div>
                                <div>ВОПРОС ГОЛОСОВАНИЯ</div>
                                <button>Проголосовать</button>
+                               <div>Комментарии</div>
                             </CardBody>
                         </Card>
                     </Collapse>

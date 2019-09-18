@@ -2,24 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Switch } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
-import history from './history';
+import history from './history/history';
+import { Provider } from 'react-redux';
+import store from './store/store'
 
 import App from './components/mainPage/App';
 import './App.css'
-import * as serviceWorker from './serviceWorker';
 import LoginPage from './components/loginPage/LoginPage';
 import SignUpPage from './components/signUpPage/SignUpPage';
 
 ReactDOM.render(
-    <Router history={history}>
-        <Switch>
-            <Route path='/log-in' component={LoginPage} />
-            <Route path='/sign-up' component={SignUpPage} />
-            <Route path='/' component={App} exact />
-        </Switch>
-    </Router>
-   
+    <Provider store={store}>
+        <Router history={history}>
+            <Switch>
+                <Route path='/log-in' component={LoginPage} />
+                <Route path='/sign-up' component={SignUpPage} />
+                <Route path='/' component={App} exact />
+            </Switch>
+        </Router>
+    </Provider>
     , document.getElementById('root'));
 
 
-serviceWorker.unregister();
+

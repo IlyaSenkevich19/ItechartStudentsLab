@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-import history from '../../history'
+import history from '../../history/history'
 
 const LoginPage = () => {
 

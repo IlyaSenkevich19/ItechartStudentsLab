@@ -1,6 +1,6 @@
 import React from 'react';
 
-import history from '../../history'
+import history from '../../history/history'
 
 class Header extends React.PureComponent {
 
