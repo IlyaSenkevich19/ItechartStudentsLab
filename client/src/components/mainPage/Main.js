@@ -8,13 +8,13 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from
 import VotingList from './VotingList'
 
 
+
 class Main extends React.PureComponent {
 
     state = {
         voteText: '',
         modal: false,
     }
-
 
     toggle = () => {
         this.setState(prevState => ({
@@ -46,7 +46,7 @@ class Main extends React.PureComponent {
                     <ModalHeader toggle={this.toggle} close={closeBtn}>Сreate your vote</ModalHeader>
                     <ModalBody>
                         <Label>Enter your vote</Label>
-                        <Input placeholder='Your vote' onChange={this.handleInputChange} value={this.state.voteText}  />
+                        <Input placeholder='Your vote' onChange={this.handleInputChange} value={this.state.voteText} />
                         <Label>Voting start date</Label>
                         <Input placeholder='date' type='date' />
                         <Label>Voting end date</Label>
@@ -64,11 +64,11 @@ class Main extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-    votes: state.voteslist
+    votes: state.voteslist,
 })
 
 const mapDispatchToProps = dispatch => ({
-   createVote: (id, text, bool) => dispatch(createVote(id, text, bool))
+    createVote: (id, text, bool) => dispatch(createVote(id, text, bool))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

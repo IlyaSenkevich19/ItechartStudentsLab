@@ -3,42 +3,95 @@ import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import history from '../../history/history'
+import { connect } from 'react-redux';
+import { getRole } from '../../actions/actions';
+import { Redirect } from 'react-router-dom'
 
-const LoginPage = () => {
+class LoginPage extends React.PureComponent {
 
-    const onSignUpPage = () => {
+    state = {
+        email: '',
+        password: ''
+    };
+
+    onInputChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({ [name]: value })
+    };
+
+    onSignUpPage = () => {
         history.push('/sign-up');
     };
-    const onMainPage = () => {
+
+    onMainPage = () => {
         history.push('/');
     };
 
-    return (
-        <Form className='login-form'>
-            <h1 className='text-center'>
-                <span className='font-weight-bold'>Online Voting System</span>
-            </h1>
-            <h2 className='text-center'>Welcom</h2>
-            <hr />
-            <FormGroup>
-                <Label>Email</Label>
-                <Input type='email' placeholder='Email' />
-            </FormGroup>
-            <FormGroup>
-                <Label>Password</Label>
-                <Input type='password' placeholder='Password' />
-            </FormGroup>
-            <Button className='btn-lg btn-dark btn-block'>
-                Log in
-            </Button>
-            <div className='text-center'>
-                <a onClick={onSignUpPage} href='/sign-up'>Sign up</a>
-            </div>
-            <div className='text-center'>
-                <a onClick={onMainPage} href='/'>Back to Main Page</a>
-            </div>
-        </Form>
-    );
-}
+    fetchPost = async () => {
+        const rawResponse = await fetch('http://localhost:8000/login', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: this.state.email, password: this.state.password })
+        });
+        const content = await rawResponse.json();
 
-export default LoginPage;
+        this.props.getRoles(content.role);
+    }
+
+    render() {
+        console.log(this.props.roles)
+        const { roles } = this.props;
+        if (roles && roles==='admin') { return <Redirect to='/admin' /> } else {
+            return (
+                <Form className='login-form'>
+                    <h1 className='text-center'>
+                        <span className='font-weight-bold'>Online Voting System</span>
+                    </h1>
+                    <h2 className='text-center'>Welcom</h2>
+                    <hr />
+                    <FormGroup>
+                        <Label>Email</Label>
+                        <Input
+                            type='email'
+                            name='email'
+                            value={this.state.email}
+                            onChange={this.onInputChange}
+                            placeholder='Email' />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label>Password</Label>
+                        <Input
+                            type='password'
+                            onChange={this.onInputChange}
+                            value={this.state.password}
+                            name='password'
+                            placeholder='Password' />
+                    </FormGroup>
+                    <Button onClick={this.fetchPost} className='btn-lg btn-dark btn-block'>
+                        Log in
+                </Button>
+                    <div className='text-center'>
+                        <a onClick={this.onSignUpPage} href='/sign-up'>Sign up</a>
+                    </div>
+                    <div className='text-center'>
+                        <a onClick={this.onMainPage} href='/'>Back to Main Page</a>
+                    </div>
+                </Form>
+            );
+        }
+    }
+}
+const mapStateToProps = state => ({
+    roles: state.roles.role
+})
+
+const mapDispatchToProps = dispatch => ({
+    getRoles: role => dispatch(getRole(role))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

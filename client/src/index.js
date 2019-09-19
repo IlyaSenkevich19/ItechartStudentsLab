@@ -10,6 +10,7 @@ import App from './components/mainPage/App';
 import './App.css'
 import LoginPage from './components/loginPage/LoginPage';
 import SignUpPage from './components/signUpPage/SignUpPage';
+import AdminPage from './components/adminPage/AdminPage'
 
 ReactDOM.render(
     <Provider store={store}>
@@ -18,6 +19,7 @@ ReactDOM.render(
                 <Route path='/log-in' component={LoginPage} />
                 <Route path='/sign-up' component={SignUpPage} />
                 <Route path='/' component={App} exact />
+                <Route path='/admin' component={AdminPage} />
             </Switch>
         </Router>
     </Provider>

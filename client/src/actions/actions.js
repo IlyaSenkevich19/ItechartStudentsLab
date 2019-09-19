@@ -21,3 +21,8 @@ export const filterVotes = {
     SHOW_ACTIVE: "SHOW_ACTIVE",
     SHOW_ALL: "SHOW_ALL"
 }
+
+export const getRole = role => ({
+   type: "GET_ROLE",
+   payload: role
+})
