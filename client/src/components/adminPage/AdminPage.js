@@ -1,11 +1,14 @@
 import React from 'react';
 
 
+
+
 class AdminPage extends React.PureComponent {
+
     render() {
         return (
             <div>
-                AdminPage
+               <button>to main</button>
             </div>
         );
     }

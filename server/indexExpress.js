@@ -2,6 +2,21 @@ const _ = require("lodash");
 const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+const app = express();
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json())
+
+//Import Routes
+
+const authRoute = require('./routes/auth');
+
+dotenv.config();
+
+const mongoose = require('mongoose');
 
 
 const passport = require("passport");
@@ -9,6 +24,22 @@ const passportJWT = require("passport-jwt");
 
 const ExtractJwt = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
+
+
+
+//Connect to db
+// process.env.DB_CONNECT
+mongoose.connect('mongodb+srv://ilya:mosavi111@cluster0-nwxra.mongodb.net/test?retryWrites=true&w=majority',
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    () => {
+        console.log('Connected to DB');
+    }
+);
+
+
+
+//Route middlewares
+app.use('/api/user', authRoute);
 
 const users = [
     {
@@ -24,6 +55,7 @@ const users = [
         role: 'user'
     }
 ];
+
 
 // app.use(cors());
 
@@ -44,7 +76,7 @@ const strategy = new JwtStrategy(jwtOptions, (jwt_payload, next) => {
 
 passport.use(strategy);
 
-const app = express();
+
 app.use(passport.initialize());
 
 app.use(bodyParser.urlencoded({
@@ -90,7 +122,7 @@ app.get("/secretDebug",
     });
 
 app.listen(8000, () => {
-    console.log("Express running");
+    console.log("Express running on the port 8000");
 });
 
 
