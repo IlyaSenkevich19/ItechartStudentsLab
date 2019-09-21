@@ -29,7 +29,7 @@ const JwtStrategy = passportJWT.Strategy;
 
 //Connect to db
 // process.env.DB_CONNECT
-mongoose.connect('mongodb+srv://ilya:mosavi111@cluster0-nwxra.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://ilya:mosavi111@online-voting-zxuel.mongodb.net/db?retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => {
         console.log('Connected to DB');
