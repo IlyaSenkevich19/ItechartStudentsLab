@@ -8,20 +8,18 @@ class VotingList extends React.PureComponent {
     
 
     render() {
-        const { votes } = this.props.voteList;
-        if (votes === undefined) {
-            return (<div>LOADING</div>)
-        } else {
+       const voteInfo = this.props.voteList;
 
-            console.log(votes[0])
+   
             return (
                 <div>
-                    <Vote vote={votes[0]} />
+                    <Vote vote={voteInfo} />
+                
                 </div>
             )
         }
     }
-}
+
 
 
 

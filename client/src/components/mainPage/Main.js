@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { createVote } from '../../actions/actions';
+import { setVote } from '../../actions/actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 
 // import CreateVoting from '../createVotingPage/CreateVoting';
@@ -14,6 +14,8 @@ class Main extends React.PureComponent {
     state = {
         voteText: '',
         modal: false,
+        startDate: '',
+        endDate: ''
     }
 
     toggle = () => {
@@ -23,20 +25,39 @@ class Main extends React.PureComponent {
     }
 
 
-    handleInputChange = ({ target: { value } }) => {
-        this.setState({
-            voteText: value
-        })
+    handleInputChange = e => {
+      const name = e.target.name;
+      const value = e.target.value;
+      this.setState({
+          [name]: value,
+          startDate: Date.now()
+      })
     }
 
-    createVoting = () => {
-        const { voteText } = this.state;
-        const { createVote } = this.props;
-        createVote((new Date()).getTime(), voteText, false);
+    createVoting = async () => {
+        const { voteText, endDate } = this.state;
+        try{
+            const rawResponse = await fetch('http://localhost:8000/api/vote', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ voteText: voteText, endDate: endDate })
+            });
+            const content = await rawResponse.json();
+            this.props.setVote(content.text, content.endDate)
+        } catch(err) {
+            console.log(err);
+        }
+       
+        
     }
 
     render() {
         const { votes } = this.props;
+
         const closeBtn = <button className="close" onClick={this.toggle}></button>;
         return (
             <div className='container-fluid main'>
@@ -46,11 +67,9 @@ class Main extends React.PureComponent {
                     <ModalHeader toggle={this.toggle} close={closeBtn}>Сreate your vote</ModalHeader>
                     <ModalBody>
                         <Label>Enter your vote</Label>
-                        <Input placeholder='Your vote' onChange={this.handleInputChange} value={this.state.voteText} />
-                        <Label>Voting start date</Label>
-                        <Input placeholder='date' type='date' />
+                        <Input placeholder='Your vote' name='voteText' onChange={this.handleInputChange} value={this.state.voteText} />
                         <Label>Voting end date</Label>
-                        <Input placeholder='date' type='date' />
+                        <Input placeholder='date' type='date' onChange={this.handleInputChange} name='endDate' value={this.state.endDate} />
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={this.createVoting}>Create</Button>{' '}
@@ -68,7 +87,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    createVote: (id, text, bool) => dispatch(createVote(id, text, bool))
+    setVote: (text, endDate) => dispatch(setVote(text, endDate))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

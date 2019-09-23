@@ -1,9 +1,8 @@
 
-export const createVote = (id, text, isCompleted) => ({
-    type: "CREATE_VOTE",
-    id,
+export const setVote = (text, endDate) => ({
+    type: "SET_VOTE",
     text,
-    isCompleted
+    endDate
 })
 
 export const setFilter = filter => ({
@@ -23,6 +22,6 @@ export const filterVotes = {
 }
 
 export const getRole = role => ({
-   type: "GET_ROLE",
-   payload: role
+    type: "GET_ROLE",
+    payload: role
 })

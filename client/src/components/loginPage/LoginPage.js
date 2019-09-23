@@ -5,7 +5,8 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import history from '../../history/history'
 import { connect } from 'react-redux';
 import { getRole } from '../../actions/actions';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 class LoginPage extends React.PureComponent {
 
@@ -14,7 +15,7 @@ class LoginPage extends React.PureComponent {
         password: ''
     };
 
-    onInputChange = (event) => {
+    onInputChange = event => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({ [name]: value })
@@ -29,7 +30,7 @@ class LoginPage extends React.PureComponent {
     };
 
     fetchPost = async () => {
-        const rawResponse = await fetch('http://localhost:8000/login', {
+        const rawResponse = await fetch('http://localhost:8000/api/user/login', {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -39,14 +40,13 @@ class LoginPage extends React.PureComponent {
             body: JSON.stringify({ email: this.state.email, password: this.state.password })
         });
         const content = await rawResponse.json();
-
-        this.props.getRoles(content.role);
+        const token = jwt_decode(content);
+        this.props.setRoles(token.role);
     }
 
     render() {
-        console.log(this.props.roles)
         const { roles } = this.props;
-        if (roles && roles==='admin') { return <Redirect to='/admin' /> } else {
+        if (roles && roles === 'admin') { return <Redirect to='/admin' /> } else {
             return (
                 <Form className='login-form'>
                     <h1 className='text-center'>
@@ -74,7 +74,7 @@ class LoginPage extends React.PureComponent {
                     </FormGroup>
                     <Button onClick={this.fetchPost} className='btn-lg btn-dark btn-block'>
                         Log in
-                </Button>
+                    </Button>
                     <div className='text-center'>
                         <a onClick={this.onSignUpPage} href='/sign-up'>Sign up</a>
                     </div>
@@ -86,12 +86,13 @@ class LoginPage extends React.PureComponent {
         }
     }
 }
+
 const mapStateToProps = state => ({
     roles: state.roles.role
 })
 
 const mapDispatchToProps = dispatch => ({
-    getRoles: role => dispatch(getRole(role))
+    setRoles: role => dispatch(getRole(role))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

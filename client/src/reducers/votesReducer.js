@@ -2,19 +2,15 @@
 
 const votes = (state = [], action) => {
     switch (action.type) {
-        case "CREATE_VOTE":
+        case "SET_VOTE":
             return [
                 ...state,
                 {
                     id: action.id,
                     text: action.text,
-                    completed: action.isCompleted
+                    endDate: action.endDate
                 }
             ]
-        case "TOGGLE_VOTE":
-            return state.map(vote =>
-                vote.id === action.id ? { ...vote, completed: !vote.completed } : vote
-            )
         default:
             return state
     }
