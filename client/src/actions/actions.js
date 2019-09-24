@@ -1,8 +1,9 @@
 
-export const setVote = (text, endDate) => ({
+export const setVote = (text, endDate, id) => ({
     type: "SET_VOTE",
     text,
-    endDate
+    endDate,
+    id
 })
 
 export const setFilter = filter => ({
@@ -25,3 +26,30 @@ export const getRole = role => ({
     type: "GET_ROLE",
     payload: role
 })
+
+export const getDataSuccess = type => ({
+    type: "GET_DATA_SUCCESS",
+    payload: type
+})
+
+export const currentPage = currentPage => ({
+    type: "SET_CURRENT_PAGE",
+    currentPage
+})
+
+export const fetchDate = url => dispatch => {
+    fetch(url, {
+        mode: 'cors',
+        headers: {
+            'Content-Type': ["image/png", 'application/json'],
+            'Accept': 'application/json',
+        }
+    }).then(response => {
+        if (!response.ok) {
+            throw Error(response.statusText)
+        }
+        return response;
+    }).then(response => response.json())
+        .then(data => dispatch(getDataSuccess(data)))
+        .catch(err => console.log(err))
+}

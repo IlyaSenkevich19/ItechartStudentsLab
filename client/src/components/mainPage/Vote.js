@@ -13,12 +13,12 @@ class Vote extends React.PureComponent {
     }
 
     render() {
-        if (this.props.vote[0] === undefined) { return <div>loading</div> } else {
+        if (this.props.vote === undefined) { return <div>loading</div> } else {
             return (
                 <div>
                     <div className='row jumbotron '>
                         <div className='col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-10'>
-                            <div className='lead'>{this.props.vote[0].text} </div>
+                            <div className='lead'>{this.props.vote.text} </div>
                         </div>
                         <div className=' col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2'>
                             <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Info</Button>

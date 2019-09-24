@@ -62,4 +62,8 @@ footer {
   border: 2px solid red;
 }
 
+.selectedPage {
+  font-size: 500;
+}
+
 
