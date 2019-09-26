@@ -15,7 +15,7 @@ router.get('/vote', async (req, res, next) => {
     // const pageOfVotes = votes.slice(pager.startIndex, pager.endIndex + 1)
 
 
-res.send(vote)
+res.send(vote);
 
 
     // return res.json({ pager, pageOfVotes });

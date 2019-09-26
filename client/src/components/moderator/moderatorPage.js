@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { authService } from '../services/authService';
 
 
-class AdminPage extends React.PureComponent {
+class ModeratorPage extends React.PureComponent {
 
     state = {
         users: null
@@ -31,13 +31,13 @@ class AdminPage extends React.PureComponent {
         return (
             <div>
                <button onClick={this.logout} >log out</button>
-               <h1>Admin</h1>
+               <h1>Moderator</h1>
                USERS:
                 <div>
                     {users &&
                         <div>
                             {users.map(user =>
-                                <div key={user._id}>{user.email} <button>block</button> <button>make moderator</button></div>
+                                <div key={user._id}>{user.email}</div>
                             )}
                         </div>
                     }
@@ -52,4 +52,4 @@ const mapDispatchToProps = dispatch => ({
 
 
 
-export default connect(null, mapDispatchToProps)(AdminPage);
+export default connect(null, mapDispatchToProps)(ModeratorPage);

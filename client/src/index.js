@@ -11,6 +11,7 @@ import './App.css'
 import LoginPage from './components/loginPage/LoginPage';
 import SignUpPage from './components/signUpPage/SignUpPage';
 import AdminPage from './components/adminPage/AdminPage'
+import moderatorPage from './components/moderator/moderatorPage';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -20,6 +21,7 @@ ReactDOM.render(
                 <Route path='/sign-up' component={SignUpPage} />
                 <Route path='/' component={App} exact />
                 <Route path='/admin' component={AdminPage} />
+                <Route path='/moderator' component={moderatorPage} />
             </Switch>
         </Router>
     </Provider>

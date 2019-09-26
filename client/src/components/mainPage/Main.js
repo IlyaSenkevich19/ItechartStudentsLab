@@ -6,6 +6,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from
 // import { Link } from 'react-router-dom';
 
 // import CreateVoting from '../createVotingPage/CreateVoting';
+import PaginationPage from './Pagination'
 import VotingList from './VotingList'
 
 
@@ -17,14 +18,20 @@ class Main extends React.PureComponent {
         modal: false,
         startDate: '',
         endDate: '',
-        // pager: {},
-        // pageOfVotes: []
+        currentPage: 1,
+        votesPerPage: 3
     }
 
     toggle = () => {
         this.setState(prevState => ({
             modal: !prevState.modal
         }))
+    }
+
+    paginate = pageNumber => {
+        this.setState({
+            currentPage: pageNumber
+        })
     }
 
 
@@ -60,30 +67,22 @@ class Main extends React.PureComponent {
         this.props.fetchDataVotes(`http://localhost:8000/api/vote`);
     }
 
-    // loadPage = () => {
-    //     const params = new URLSearchParams(location.search);
-    //     const page = parseInt(params.get('page')) || 1;
-    //     if (page !== this.state.pager.currentPage) {
-    //         fetch(`http://localhost:8000/api/vote?page=${page}`, { method: 'GET' })
-    //             .then(response => response.json())
-    //             .then(({ pager, pageOfItems }) => {
-    //                 this.setState({ pager, pageOfItems });
-    //             }
-    //             )
-    //     }
-    // }
+
 
     render() {
-        const { votes, dataVotes } = this.props;
-        // const { pager, pageOfVotes } = this.state;
-
+        const { votes, dataVotes, getAuthor } = this.props;
+        const { currentPage, votesPerPage } = this.state;
+        const indexOfLastVote = currentPage * votesPerPage;
+        const indexOfFirstVote = indexOfLastVote - votesPerPage;
+        const currentVotes = votes.slice(indexOfFirstVote, indexOfLastVote);
         const closeBtn = <button className="close" onClick={this.toggle}></button>;
+       
         if (dataVotes === undefined) { return <div>Loading</div> } else {
             return (
                 <div className='container-fluid main'>
-                    {/* <CreateVoting handleChange={this.handleInputChange} creating={this.createVoting} /> */}
-
+                    
                     <Button color="danger" onClick={this.toggle}>Create Voting</Button>
+
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle} close={closeBtn}>Сreate your vote</ModalHeader>
                         <ModalBody>
@@ -97,33 +96,8 @@ class Main extends React.PureComponent {
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
-                    {/* {pageOfVotes.map(item =>
-                        <div key={item.id}>{item.name}</div>
-                    )}
-                    <div>
-                    {pager.pages && pager.pages.length &&
-                        <ul className="pagination">
-                            <li className={`page-item first-item ${pager.currentPage === 1 ? 'disabled' : ''}`}>
-                                <Link to={{ search: `?page=1` }} className="page-link">First</Link>
-                            </li>
-                            <li className={`page-item previous-item ${pager.currentPage === 1 ? 'disabled' : ''}`}>
-                                <Link to={{ search: `?page=${pager.currentPage - 1}` }} className="page-link">Previous</Link>
-                            </li>
-                            {pager.pages.map(page =>
-                                <li key={page} className={`page-item number-item ${pager.currentPage === page ? 'active' : ''}`}>
-                                    <Link to={{ search: `?page=${page}` }} className="page-link">{page}</Link>
-                                </li>
-                            )}
-                            <li className={`page-item next-item ${pager.currentPage === pager.totalPages ? 'disabled' : ''}`}>
-                                <Link to={{ search: `?page=${pager.currentPage + 1}` }} className="page-link">Next</Link>
-                            </li>
-                            <li className={`page-item last-item ${pager.currentPage === pager.totalPages ? 'disabled' : ''}`}>
-                                <Link to={{ search: `?page=${pager.totalPages}` }} className="page-link">Last</Link>
-                            </li>
-                        </ul>
-                    }        
-                    </div> */}
-                    <VotingList dataVotes={dataVotes} voteList={votes} />
+                    <VotingList dataVotes={dataVotes} author={getAuthor} voteList={currentVotes} />
+                    <PaginationPage votesPerPage={votesPerPage} paginate={this.paginate}  />
 
                 </div>
             )
@@ -134,8 +108,7 @@ class Main extends React.PureComponent {
 const mapStateToProps = state => ({
     votes: state.voteslist.items,
     dataVotes: state.voteslist.newItems,
-
-
+    getAuthor: state.voteslist.author
 })
 
 const mapDispatchToProps = dispatch => ({

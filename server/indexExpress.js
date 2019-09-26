@@ -18,6 +18,7 @@ app.use(bodyParser.json())
 const authRoute = require('./routes/auth');
 const postRoute = require('./routes/posts');
 const voteRoute = require('./routes/votes');
+const adminRoute = require('./routes/adminRoute')
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.DB_CONNECT,
@@ -30,6 +31,7 @@ mongoose.connect(process.env.DB_CONNECT,
 app.use('/api/user', authRoute);
 app.use('/api/posts', postRoute);
 app.use('/api/', voteRoute);
+app.use('/api/admin/', adminRoute);
 
 
 app.listen(8000, () => {

@@ -24,7 +24,12 @@ export const filterVotes = {
 
 export const getRole = role => ({
     type: "GET_ROLE",
-    payload: role
+    role,
+})
+
+export const setAuthor = email => ({
+    type: "GET_AUTHOR", 
+    email
 })
 
 export const getDataSuccess = type => ({

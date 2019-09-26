@@ -3,7 +3,8 @@ const initialState = {
     newItems: [],
     pageSize: 5,
     totalVotesCount: 0,
-    currentPage: 1
+    currentPage: 1,
+    author: 'none'
 }
 
 const getDataSuccess = (state, type) => ({
@@ -24,6 +25,11 @@ const getNewItems = ( state, data) => {
    }
 }
 
+const getAuthor = (state, email) => ({
+    ...state,
+    author: email
+})
+
 const votes = (state = initialState, action) => {
     switch (action.type) {
         case "SET_VOTE":
@@ -34,7 +40,9 @@ const votes = (state = initialState, action) => {
             return {
                 ...state, currentPage: action.currentPage
             }
-        }    
+        }   
+        case "GET_AUTHOR":
+            return getAuthor(state, action.email) 
         default:
             return state
     }

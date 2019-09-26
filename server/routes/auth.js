@@ -49,7 +49,8 @@ router.post('/register', async (req, res) => {
     const user = new User({
         email: req.body.email,
         password: hashedPassword,
-        date: req.body.date
+        date: req.body.date,
+        role: 'user'
     })
 
     try {
@@ -71,10 +72,19 @@ router.post('/login', async (req, res) => {
     // const validPassword = await bcrypt.compare(req.boby.password, user.password);
     // if(!validPassword) return res.status(400).send('Invalid password');
 
-    const token = jwt.sign({ _id: user._id, role: 'admin' }, 'secretkey');
-    res.header('auth-token', token).send(JSON.stringify(token)); 
+    const admin = await User.findOne({ email: 'ilya@gmail.com' });
+    const moderator = await User.findOne({ email: 'sluka@gmail.com' });
     
-
+    if( req.body.email === admin.email) {
+        const token = jwt.sign({ _id: user._id, role: 'admin' }, 'secretkey');
+        res.header('auth-token', token).send(JSON.stringify(token)); 
+    } else if(req.body.email === moderator.email) {
+        const token = jwt.sign({ _id: user._id, role: 'moderator' }, 'secretkey');
+        res.header('auth-token', token).send(JSON.stringify(token)); 
+    } else {
+        const token = jwt.sign({ _id: user._id, role: 'user' }, 'secretkey');
+        res.header('auth-token', token).send(JSON.stringify(token)); 
+    } 
 })
 
 

@@ -14,6 +14,7 @@ class Vote extends React.PureComponent {
 
     render() {
         if (this.props.vote === undefined) { return <div>loading</div> } else {
+       
             return (
                 <div>
                     <div className='row jumbotron '>
@@ -21,6 +22,7 @@ class Vote extends React.PureComponent {
                             <div className='lead'>{this.props.vote.text} </div>
                         </div>
                         <div className=' col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2'>
+                            <div></div>
                             <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Info</Button>
                         </div>
                         <Collapse isOpen={this.state.collapse}>
