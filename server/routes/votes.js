@@ -24,7 +24,8 @@ res.send(vote);
 router.post('/vote', async (req, res) => {
     const newVote = new Vote({
         text: req.body.voteText,
-        endDate: req.body.endDate
+        endDate: req.body.endDate, 
+        author: req.body.author
     });
 
     const vote = await newVote.save();

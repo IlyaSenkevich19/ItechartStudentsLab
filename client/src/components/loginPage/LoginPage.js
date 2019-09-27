@@ -43,7 +43,7 @@ class LoginPage extends React.PureComponent {
         localStorage.setItem('currentUser', JSON.stringify(content));
         const token = jwt_decode(content);
         this.props.setRoles(token.role);
-        this.props.setAuthor(content.email)
+        this.props.setAuthor(token.email)
     };
 
     render() {

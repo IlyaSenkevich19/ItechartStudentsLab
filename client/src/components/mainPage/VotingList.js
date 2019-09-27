@@ -13,9 +13,8 @@ class VotingList extends React.PureComponent {
        
        
         if (dataVotes === undefined) { return (<div>Loading</div>) } else {
-            // const author = this.props.author;
-            const dataVotesList = dataVotes.map(vote => <div key={vote._id} > <Vote  vote={vote} /> </div> );
-            const listVote = voteInfo.map(vote =>  <div key={vote._id} > <Vote vote={vote} /> </div> );
+            const dataVotesList = dataVotes.map(vote => <div key={vote._id} > <Vote   vote={vote} /> </div> );
+            const listVote = voteInfo.map(vote =>  <div key={vote._id} > <Vote   vote={vote} /> </div> );
             return (
                 <div className='listDay'>
                 { dataVotesList ?

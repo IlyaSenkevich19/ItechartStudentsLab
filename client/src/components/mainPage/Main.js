@@ -7,7 +7,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from
 
 // import CreateVoting from '../createVotingPage/CreateVoting';
 import PaginationPage from './Pagination'
-import VotingList from './VotingList'
+import VotingList from './VotingList';
+import {userService} from '../services/userService'
 
 
 
@@ -19,7 +20,8 @@ class Main extends React.PureComponent {
         startDate: '',
         endDate: '',
         currentPage: 1,
-        votesPerPage: 3
+        votesPerPage: 3,
+        author: null
     }
 
     toggle = () => {
@@ -46,36 +48,22 @@ class Main extends React.PureComponent {
 
     createVoting = async () => {
         const { voteText, endDate } = this.state;
-        try {
-            const rawResponse = await fetch('http://localhost:8000/api/vote', {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ voteText: voteText, endDate: endDate })
-            });
-            const content = await rawResponse.json();
-            this.props.setVote(content.text, content.endDate, content._id)
-        } catch (err) {
-            console.log(err);
-        }
+        const content = await userService.createVote(voteText, endDate, this.props.setAuthor);
+        this.props.setVote(content.text, content.endDate, content._id)
     }
 
     componentDidMount = () => {
         this.props.fetchDataVotes(`http://localhost:8000/api/vote`);
     }
 
-
-
     render() {
-        const { votes, dataVotes, getAuthor } = this.props;
+        const { votes, dataVotes} = this.props;
         const { currentPage, votesPerPage } = this.state;
         const indexOfLastVote = currentPage * votesPerPage;
         const indexOfFirstVote = indexOfLastVote - votesPerPage;
         const currentVotes = votes.slice(indexOfFirstVote, indexOfLastVote);
         const closeBtn = <button className="close" onClick={this.toggle}></button>;
+      
        
         if (dataVotes === undefined) { return <div>Loading</div> } else {
             return (
@@ -96,7 +84,7 @@ class Main extends React.PureComponent {
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
-                    <VotingList dataVotes={dataVotes} author={getAuthor} voteList={currentVotes} />
+                    <VotingList dataVotes={dataVotes}  voteList={currentVotes} />
                     <PaginationPage votesPerPage={votesPerPage} paginate={this.paginate}  />
 
                 </div>
@@ -108,13 +96,14 @@ class Main extends React.PureComponent {
 const mapStateToProps = state => ({
     votes: state.voteslist.items,
     dataVotes: state.voteslist.newItems,
-    getAuthor: state.voteslist.author
+    setAuthor: state.voteslist.author,
+    
+    
 })
 
 const mapDispatchToProps = dispatch => ({
     setVote: (text, endDate, id) => dispatch(setVote(text, endDate, id)),
     fetchDataVotes: data => dispatch(fetchDate(data)),
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

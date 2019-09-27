@@ -82,7 +82,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({ _id: user._id, role: 'moderator' }, 'secretkey');
         res.header('auth-token', token).send(JSON.stringify(token)); 
     } else {
-        const token = jwt.sign({ _id: user._id, role: 'user' }, 'secretkey');
+        const token = jwt.sign({ _id: user._id, role: 'user', email: user.email }, 'secretkey');
         res.header('auth-token', token).send(JSON.stringify(token)); 
     } 
 })
