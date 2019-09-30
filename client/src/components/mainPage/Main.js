@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { setVote, fetchDate } from '../../actions/actions';
+import { setVote, fetchDate, fetchComments } from '../../actions/actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 // import { Link } from 'react-router-dom';
 
@@ -49,11 +49,12 @@ class Main extends React.PureComponent {
     createVoting = async () => {
         const { voteText, endDate } = this.state;
         const content = await userService.createVote(voteText, endDate, this.props.setAuthor);
-        this.props.setVote(content.text, content.endDate, content._id)
+        this.props.setVote(content.text, content.endDate, content._id);
     }
 
     componentDidMount = () => {
-        this.props.fetchDataVotes(`http://localhost:8000/api/vote`);
+        this.props.fetchData(`http://localhost:8000/api/vote`);
+        // this.props.fetchComments(`http://localhost:8000/api/comments`);
     }
 
     render() {
@@ -68,9 +69,7 @@ class Main extends React.PureComponent {
         if (dataVotes === undefined) { return <div>Loading</div> } else {
             return (
                 <div className='container-fluid main'>
-                    
                     <Button color="danger" onClick={this.toggle}>Create Voting</Button>
-
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle} close={closeBtn}>Сreate your vote</ModalHeader>
                         <ModalBody>
@@ -86,7 +85,6 @@ class Main extends React.PureComponent {
                     </Modal>
                     <VotingList dataVotes={dataVotes}  voteList={currentVotes} />
                     <PaginationPage votesPerPage={votesPerPage} paginate={this.paginate}  />
-
                 </div>
             )
         }
@@ -97,13 +95,12 @@ const mapStateToProps = state => ({
     votes: state.voteslist.items,
     dataVotes: state.voteslist.newItems,
     setAuthor: state.voteslist.author,
-    
-    
 })
 
 const mapDispatchToProps = dispatch => ({
     setVote: (text, endDate, id) => dispatch(setVote(text, endDate, id)),
-    fetchDataVotes: data => dispatch(fetchDate(data)),
+    fetchData: data => dispatch(fetchDate(data)),
+    fetchComments: data => dispatch(fetchComments(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

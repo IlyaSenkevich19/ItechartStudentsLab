@@ -28,7 +28,7 @@ export const getRole = role => ({
 })
 
 export const setAuthor = email => ({
-    type: "GET_AUTHOR", 
+    type: "GET_AUTHOR",
     email
 })
 
@@ -42,7 +42,31 @@ export const currentPage = currentPage => ({
     currentPage
 })
 
+export const setComments = (author, date, text) => ({
+    type: "SET_COMMENT",
+    author,
+    date,
+    text
+})
+
 export const fetchDate = url => dispatch => {
+    fetch(url, {
+        mode: 'cors',
+        headers: {
+            'Content-Type': ["image/png", 'application/json'],
+            'Accept': 'application/json',
+        }
+    }).then(response => {
+        if (!response.ok) {
+            throw Error(response.statusText)
+        }
+        return response;
+    }).then(response => response.json())
+        .then(data => dispatch(getDataSuccess(data)))
+        .catch(err => console.log(err))
+}
+
+export const fetchComments = url => dispatch => {
     fetch(url, {
         mode: 'cors',
         headers: {

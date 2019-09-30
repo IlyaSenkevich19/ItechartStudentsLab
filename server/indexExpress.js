@@ -14,12 +14,20 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+app.use( (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE')
+next()
+});
 
 const authRoute = require('./routes/auth');
-const postRoute = require('./routes/posts');
+// const postRoute = require('./routes/posts');
 const voteRoute = require('./routes/votes');
-const adminRoute = require('./routes/adminRoute')
+const adminRoute = require('./routes/adminRoute');
+const commentRoute = require('./routes/comments');
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.DB_CONNECT,
@@ -30,9 +38,10 @@ mongoose.connect(process.env.DB_CONNECT,
 );
 
 app.use('/api/user', authRoute);
-app.use('/api/posts', postRoute);
+// app.use('/api/posts', postRoute);
 app.use('/api/', voteRoute);
 app.use('/api/admin/', adminRoute);
+app.use('/api/', commentRoute);
 
 
 app.listen(8000, () => {

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Collapse, Button, CardBody, Card } from 'reactstrap';
 
+import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import CommetArea from '../Comment/CommentArea';
 
 class Vote extends React.PureComponent {
 
@@ -15,8 +16,8 @@ class Vote extends React.PureComponent {
 
     render() {
         if (this.props.vote === undefined) { return <div>loading</div> } else {
-      
-       
+
+
             return (
                 <div>
                     <div className='row jumbotron '>
@@ -36,10 +37,11 @@ class Vote extends React.PureComponent {
                                     <div>Сколько осталось до конца голосования</div>
                                     <div>Общее число голосов</div>
                                     <button>Проголосовать</button>
-                                    <div>Комментарии</div>
                                 </CardBody>
                             </Card>
                         </Collapse>
+                        <CommetArea voteId={this.props.vote._id} />
+
                     </div>
                 </div>
             );
