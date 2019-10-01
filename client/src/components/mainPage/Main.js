@@ -9,6 +9,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from
 import PaginationPage from './Pagination'
 import VotingList from './VotingList';
 import {userService} from '../services/userService'
+import {authService} from '../services/authService';
 
 
 
@@ -36,7 +37,6 @@ class Main extends React.PureComponent {
         })
     }
 
-
     handleInputChange = e => {
         const name = e.target.name;
         const value = e.target.value;
@@ -46,10 +46,17 @@ class Main extends React.PureComponent {
         })
     }
 
+    // timeToFinishVote = () => {
+    //     const currDate = new Date();
+    //     const currYear = currDate.getFullYear();
+    //     console.log(this.props.votes);
+        
+    // }
+
     createVoting = async () => {
         const { voteText, endDate } = this.state;
-        const content = await userService.createVote(voteText, endDate, this.props.setAuthor);
-        this.props.setVote(content.text, content.endDate, content._id);
+        const content = await userService.createVote(voteText, endDate, this.state.startDate, this.props.setAuthor);
+        this.props.setVote(content.text, content.endDate, content.startDate, content._id);
     }
 
     componentDidMount = () => {
@@ -64,8 +71,7 @@ class Main extends React.PureComponent {
         const indexOfFirstVote = indexOfLastVote - votesPerPage;
         const currentVotes = votes.slice(indexOfFirstVote, indexOfLastVote);
         const closeBtn = <button className="close" onClick={this.toggle}></button>;
-      
-       
+        
         if (dataVotes === undefined) { return <div>Loading</div> } else {
             return (
                 <div className='container-fluid main'>

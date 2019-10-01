@@ -12,6 +12,7 @@ import LoginPage from './components/loginPage/LoginPage';
 import SignUpPage from './components/signUpPage/SignUpPage';
 import AdminPage from './components/adminPage/AdminPage'
 import moderatorPage from './components/moderator/moderatorPage';
+import PrivateRoute from './components/PrivateRoute';
 
 ReactDOM.render(
     <Provider store={store}>

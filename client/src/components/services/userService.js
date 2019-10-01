@@ -1,5 +1,5 @@
 
-const createVote = async (voteText, endDate, author) => {
+const createVote = async (voteText, endDate, startDate, author) => {
     const token = localStorage.getItem('currentUser')
     const options = {
         method: 'POST',
@@ -9,7 +9,7 @@ const createVote = async (voteText, endDate, author) => {
             "auth-token": `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ voteText: voteText, endDate: endDate, author: author })
+        body: JSON.stringify({ voteText: voteText, endDate: endDate, startDate: startDate, author: author })
     } 
     try {
         const rawResponse = await fetch('http://localhost:8000/api/vote', options)

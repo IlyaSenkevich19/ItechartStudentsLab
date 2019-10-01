@@ -1,3 +1,5 @@
+import jwt_decode from 'jwt-decode';
+import { Role } from '../role'
 const getAllUsers = async () => {
     const token = localStorage.getItem('currentUser');
     const requestOptions = {
@@ -5,7 +7,7 @@ const getAllUsers = async () => {
         mode: 'cors',
         headers: {
             'Accept': 'application/json',
-            "auth-token": `Bearer ${token}`,
+            "auth-token": `${token}`,
             'Content-Type': 'application/json',
         },
     }
@@ -25,7 +27,7 @@ const getAllModerators = async () => {
         mode: 'cors',
         headers: {
             'Accept': 'application/json',
-            "auth-token": `Bearer ${token}`,
+            "auth-token": `${token}`,
             'Content-Type': 'application/json',
         },
     }
@@ -38,12 +40,57 @@ const getAllModerators = async () => {
     }
 }
 
+const blockUser = async (userId, blockStatus) => {
+    const token = localStorage.getItem('currentUser');
+    const options = {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": `${token}`,  
+        }
+    };
 
+    try {
+        const req = await fetch(`http://localhost:8000/api/admin/users/${userId}/${blockStatus}`, options);
+        const res = await req.json();
+        return res;
+    } catch (err) {
+        console.log(err)
+    }
+}
 
+const makeModerator = async (userId, role) => {
+    const token = localStorage.getItem('currentUser');
+    const options = {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": `${token}`,  
+        }
+    };
+    try {
+        const req = await fetch(`http://localhost:8000/api/admin/user/${userId}/${role}`, options);
+        const res = await req.json();
+        return res;
+    } catch (err) {
+        console.log(err)
+    }
+}
 
-
+const getRole = () => {
+    const currUserSubj = localStorage.getItem('currentUser');
+    if (currUserSubj) {
+        const decodeUser = jwt_decode(currUserSubj);
+        return decodeUser
+    } else {
+       return Role.NonUser;
+    }
+}
 
 export const authService = {
     getAllUsers,
     getAllModerators,
+    blockUser,
+    makeModerator,
+    currentUser: getRole()
 };
