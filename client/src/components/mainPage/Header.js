@@ -1,8 +1,5 @@
 import React from 'react';
-
 import history from '../../history/history';
-import { getRole } from '../../actions/actions';
-import { connect } from 'react-redux'; 
 
 class Header extends React.PureComponent {
 
@@ -16,8 +13,8 @@ class Header extends React.PureComponent {
 
     logout = () => {
         localStorage.removeItem('currentUser');
-        this.props.setRoles('non-user');
         history.push('/log-in');
+        window.location.reload();
     }
 
     render() {
@@ -38,8 +35,4 @@ class Header extends React.PureComponent {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    setRoles: role => dispatch(getRole(role))
-})
-
-export default connect(null, mapDispatchToProps)(Header);
+export default Header;

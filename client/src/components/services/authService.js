@@ -1,5 +1,5 @@
 import jwt_decode from 'jwt-decode';
-import { Role } from '../role'
+
 const getAllUsers = async () => {
     const token = localStorage.getItem('currentUser');
     const requestOptions = {
@@ -7,7 +7,7 @@ const getAllUsers = async () => {
         mode: 'cors',
         headers: {
             'Accept': 'application/json',
-            "auth-token": `${token}`,
+            "auth-token": `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
     }
@@ -27,7 +27,7 @@ const getAllModerators = async () => {
         mode: 'cors',
         headers: {
             'Accept': 'application/json',
-            "auth-token": `${token}`,
+            "auth-token": `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
     }
@@ -46,7 +46,7 @@ const blockUser = async (userId, blockStatus) => {
         method: 'PATCH',
         headers: {
             "Content-Type": "application/json",
-            "auth-token": `${token}`,  
+            "auth-token": `Bearer ${token}`,  
         }
     };
 
@@ -65,7 +65,7 @@ const makeModerator = async (userId, role) => {
         method: 'PATCH',
         headers: {
             "Content-Type": "application/json",
-            "auth-token": `${token}`,  
+            "auth-token": `Bearer ${token}`,  
         }
     };
     try {
@@ -81,9 +81,9 @@ const getRole = () => {
     const currUserSubj = localStorage.getItem('currentUser');
     if (currUserSubj) {
         const decodeUser = jwt_decode(currUserSubj);
-        return decodeUser
+        return decodeUser;
     } else {
-       return Role.NonUser;
+       return { role: 'non-user' };
     }
 }
 

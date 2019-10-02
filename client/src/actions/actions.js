@@ -22,11 +22,6 @@ export const filterVotes = {
     SHOW_ALL: "SHOW_ALL"
 }
 
-export const getRole = role => ({
-    type: "GET_ROLE",
-    role,
-})
-
 export const setAuthor = email => ({
     type: "GET_AUTHOR",
     email

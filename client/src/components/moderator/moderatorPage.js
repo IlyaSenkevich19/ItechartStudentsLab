@@ -1,9 +1,7 @@
 import React from 'react';
 
 import history from '../../history/history';
-import {getRole} from '../../actions/actions'
 
-import { connect } from 'react-redux'; 
 import { authService } from '../services/authService';
 
 
@@ -15,7 +13,7 @@ class ModeratorPage extends React.PureComponent {
 
     logout = () => {
         localStorage.removeItem('currentUser');
-        this.props.setRoles('non-user');
+        // this.props.setRoles('non-user');
         history.push('/log-in');
     }
 
@@ -46,10 +44,8 @@ class ModeratorPage extends React.PureComponent {
         );
     }
 }
-const mapDispatchToProps = dispatch => ({
-    setRoles: role => dispatch(getRole(role))
-})
 
 
 
-export default connect(null, mapDispatchToProps)(ModeratorPage);
+
+export default ModeratorPage;

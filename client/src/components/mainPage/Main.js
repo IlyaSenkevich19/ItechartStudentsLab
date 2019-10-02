@@ -55,8 +55,9 @@ class Main extends React.PureComponent {
 
     createVoting = async () => {
         const { voteText, endDate } = this.state;
-        const content = await userService.createVote(voteText, endDate, this.state.startDate, this.props.setAuthor);
+        const content = await userService.createVote(voteText, endDate, this.state.startDate, authService.currentUser.email);
         this.props.setVote(content.text, content.endDate, content.startDate, content._id);
+        window.location.reload();
     }
 
     componentDidMount = () => {
@@ -66,6 +67,7 @@ class Main extends React.PureComponent {
 
     render() {
         const { votes, dataVotes} = this.props;
+        const countVotes = votes.length;
         const { currentPage, votesPerPage } = this.state;
         const indexOfLastVote = currentPage * votesPerPage;
         const indexOfFirstVote = indexOfLastVote - votesPerPage;
@@ -75,6 +77,7 @@ class Main extends React.PureComponent {
         if (dataVotes === undefined) { return <div>Loading</div> } else {
             return (
                 <div className='container-fluid main'>
+                    <div>Всего голосований: {countVotes}</div>
                     <Button color="danger" onClick={this.toggle}>Create Voting</Button>
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle} close={closeBtn}>Сreate your vote</ModalHeader>
@@ -100,7 +103,7 @@ class Main extends React.PureComponent {
 const mapStateToProps = state => ({
     votes: state.voteslist.items,
     dataVotes: state.voteslist.newItems,
-    setAuthor: state.voteslist.author,
+    // setAuthor: state.voteslist.author,
 })
 
 const mapDispatchToProps = dispatch => ({

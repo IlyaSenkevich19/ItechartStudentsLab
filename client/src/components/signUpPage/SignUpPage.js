@@ -16,7 +16,7 @@ class SignUpPage extends React.PureComponent {
                 body: JSON.stringify({ email: values.email, password: values.password, date: values.date })
             });
             const content = await rawResponse.json();
-            console.log(content);
+            window.alert(content.details[0].message);
         } catch (error) {
             console.log(error)
         }

@@ -18,8 +18,8 @@ class AdminPage extends React.PureComponent {
 
     logout = () => {
         localStorage.removeItem('currentUser');
-        this.props.setRoles('non-user');
         history.push('/log-in');
+        window.location.reload();
     }
 
     componentDidMount = async () => {
@@ -82,10 +82,10 @@ class AdminPage extends React.PureComponent {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    setRoles: role => dispatch(getRole(role))
-})
+// const mapDispatchToProps = dispatch => ({
+//     setRoles: role => dispatch(getRole(role))
+// })
 
 
 
-export default connect(null, mapDispatchToProps)(AdminPage);
+export default AdminPage;
