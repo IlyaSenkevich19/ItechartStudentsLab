@@ -41,6 +41,15 @@ footer {
   height: 300px;
 }
 
+.comment-list {
+  width:550px; 
+  height:100px; 
+  background: #fff; 
+  border: 1px solid #C1C1C1; 
+  overflow: auto;
+  padding:20px;
+}
+
 .login-form {
   background-color: bisque;
   width: 100%;

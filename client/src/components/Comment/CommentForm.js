@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from "react-redux";
 
 import { userService } from '../services/userService';
-import { setComments } from '../../actions/actions'
+import { setComments } from '../../actions/actions';
+import { authService } from '../services/authService'
 
 class CommentForm extends React.PureComponent {
 
@@ -18,9 +19,10 @@ class CommentForm extends React.PureComponent {
 
     handleSubmit = async () => {
         const date = Date.now();
-        console.log(this.props.author)
-        const comment = await userService.createComment(this.state.comment, date, this.props.author, this.props.voteId)
+        const author = authService.currentUser.email;
+        const comment = await userService.createComment(this.state.comment, date, author, this.props.voteId)
         this.props.setComment(comment.author, comment.date, comment.text);
+
     }
 
 
@@ -32,18 +34,17 @@ class CommentForm extends React.PureComponent {
                     value={this.state.comment}
                     placeholder='Type your comment'
                 />
+
                 <button onClick={this.handleSubmit} >add comment</button>
             </div>
         )
     }
 }
 
-const mapStateToProps = state => ({
-    author: state.voteslist.author
-})
+
 
 const mapDispatchToProps = dispatch => ({
    setComment: (author, date, text) => dispatch(setComments(author, date, text))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
+export default connect(mapDispatchToProps, null)(CommentForm);

@@ -1,3 +1,4 @@
+import comment from "../reducers/commentReducer"
 
 export const setVote = (text, endDate, id) => ({
     type: "SET_VOTE",
@@ -38,18 +39,22 @@ export const currentPage = currentPage => ({
 })
 
 export const setComments = (author, date, text) => ({
-    type: "SET_COMMENT",
+    type: "CREATE_COMMENT",
     author,
     date,
     text
-})
+});
+
+
 
 export const fetchDate = url => dispatch => {
+    const token = localStorage.getItem('currentUser')
     fetch(url, {
         mode: 'cors',
         headers: {
             'Content-Type': ["image/png", 'application/json'],
             'Accept': 'application/json',
+            "auth-token": `Bearer ${token}`,
         }
     }).then(response => {
         if (!response.ok) {
@@ -61,19 +66,4 @@ export const fetchDate = url => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const fetchComments = url => dispatch => {
-    fetch(url, {
-        mode: 'cors',
-        headers: {
-            'Content-Type': ["image/png", 'application/json'],
-            'Accept': 'application/json',
-        }
-    }).then(response => {
-        if (!response.ok) {
-            throw Error(response.statusText)
-        }
-        return response;
-    }).then(response => response.json())
-        .then(data => dispatch(getDataSuccess(data)))
-        .catch(err => console.log(err))
-}
+

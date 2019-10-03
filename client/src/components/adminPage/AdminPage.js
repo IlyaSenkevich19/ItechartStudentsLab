@@ -1,9 +1,7 @@
 import React from 'react';
 
 import history from '../../history/history';
-import { getRole } from '../../actions/actions'
 
-import { connect } from 'react-redux';
 import { authService } from '../services/authService';
 
 
@@ -38,10 +36,12 @@ class AdminPage extends React.PureComponent {
             this.setState({
                 role: 'moderator'
             })
+            console.log('1')
         } else {
             this.setState({
                 role: 'user'
             })
+            console.log('2')
         }
     }
 
@@ -50,6 +50,7 @@ class AdminPage extends React.PureComponent {
         this.setState({
             blockStatus: !blockStatusRes
         })
+        console.log(blockStatusRes)
     }
 
     render() {
@@ -82,9 +83,6 @@ class AdminPage extends React.PureComponent {
     }
 }
 
-// const mapDispatchToProps = dispatch => ({
-//     setRoles: role => dispatch(getRole(role))
-// })
 
 
 

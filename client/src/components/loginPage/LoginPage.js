@@ -96,9 +96,4 @@ class LoginPage extends React.PureComponent {
     }
 }
 
-
-// const mapDispatchToProps = dispatch => ({
-//     setAuthor: email => dispatch(setAuthor(email))
-// })
-
 export default LoginPage;

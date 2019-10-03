@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { setVote, fetchDate, fetchComments } from '../../actions/actions';
+import { setVote, fetchDate} from '../../actions/actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 // import { Link } from 'react-router-dom';
 
@@ -62,7 +62,6 @@ class Main extends React.PureComponent {
 
     componentDidMount = () => {
         this.props.fetchData(`http://localhost:8000/api/vote`);
-        // this.props.fetchComments(`http://localhost:8000/api/comments`);
     }
 
     render() {
@@ -109,7 +108,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     setVote: (text, endDate, id) => dispatch(setVote(text, endDate, id)),
     fetchData: data => dispatch(fetchDate(data)),
-    fetchComments: data => dispatch(fetchComments(data)),
+    // fetchComments: data => dispatch(fetchComments(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

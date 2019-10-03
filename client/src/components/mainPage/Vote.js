@@ -3,6 +3,7 @@ import React from 'react';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import CommetArea from '../Comment/CommentArea';
 
+
 class Vote extends React.PureComponent {
 
     state = {
@@ -13,16 +14,16 @@ class Vote extends React.PureComponent {
         this.setState(state => ({ collapse: !state.collapse }))
     }
 
-    timeToFinishVoting = () => {
-        const currDate = new Date();
-        console.log(currDate);
-        const { endDate } = this.props.vote;
-        const endDates = endDate;
-        console.log(endDates);
-        // const daysToFinish = endDates - currDate;
-        // console.log(daysToFinish)
-        // return daysToFinish;
-    }
+    // timeToFinishVoting = () => {
+    //     const currDate = new Date();
+       
+    //     const { endDate } = this.props.vote;
+    //     const endDates = endDate;
+        
+    //     // const daysToFinish = endDates - currDate;
+    //     // console.log(daysToFinish)
+    //     // return daysToFinish;
+    // }
 
     giveVote = async () => {
         const options = {
@@ -42,7 +43,8 @@ class Vote extends React.PureComponent {
 
     render() {
         if (this.props.vote === undefined) { return <div>loading</div> } else {
-            const endDate = this.timeToFinishVoting();
+            // const endDate = this.timeToFinishVoting();
+            const { comments } = this.props.vote;
             return (
                 <div>
                     <div className='row jumbotron '>
@@ -58,13 +60,13 @@ class Vote extends React.PureComponent {
                             <Card>
                                 <CardBody>
                                     <div>Дата начала голосования</div>
-                                    <div>{endDate}</div>
+                                    {/* <div>{endDate}</div> */}
                                     <div>Общее число голосов</div>
                                     <button onClick={this.giveVote}>Проголосовать</button>
                                 </CardBody>
                             </Card>
                         </Collapse>
-                        <CommetArea voteId={this.props.vote._id} />
+                        <CommetArea comments={comments} voteId={this.props.vote._id} />
                     </div>
                 </div>
             );
