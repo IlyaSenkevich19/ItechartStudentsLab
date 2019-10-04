@@ -4,6 +4,7 @@ import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 
 
+
 class CommentArea extends React.PureComponent {
 
 

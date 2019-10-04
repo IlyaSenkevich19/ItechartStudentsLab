@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { setVote, fetchDate} from '../../actions/actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
-// import { Link } from 'react-router-dom';
+
 
 // import CreateVoting from '../createVotingPage/CreateVoting';
 import PaginationPage from './Pagination'
@@ -46,18 +46,11 @@ class Main extends React.PureComponent {
         })
     }
 
-    // timeToFinishVote = () => {
-    //     const currDate = new Date();
-    //     const currYear = currDate.getFullYear();
-    //     console.log(this.props.votes);
-        
-    // }
 
     createVoting = async () => {
         const { voteText, endDate } = this.state;
         const content = await userService.createVote(voteText, endDate, this.state.startDate, authService.currentUser.email);
-        this.props.setVote(content.text, content.endDate, content.startDate, content._id);
-        window.location.reload();
+        this.props.setVote(content.text,  content.startDate, content.endDate, content._id, content.author);
     }
 
     componentDidMount = () => {
@@ -65,15 +58,13 @@ class Main extends React.PureComponent {
     }
 
     render() {
-        const { votes, dataVotes} = this.props;
+        const { votes} = this.props;
         const countVotes = votes.length;
         const { currentPage, votesPerPage } = this.state;
         const indexOfLastVote = currentPage * votesPerPage;
         const indexOfFirstVote = indexOfLastVote - votesPerPage;
         const currentVotes = votes.slice(indexOfFirstVote, indexOfLastVote);
         const closeBtn = <button className="close" onClick={this.toggle}></button>;
-        
-        if (dataVotes === undefined) { return <div>Loading</div> } else {
             return (
                 <div className='container-fluid main'>
                     <div>Всего голосований: {countVotes}</div>
@@ -91,24 +82,20 @@ class Main extends React.PureComponent {
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
-                    <VotingList dataVotes={dataVotes}  voteList={currentVotes} />
+                    <VotingList  voteList={currentVotes} />
                     <PaginationPage votesPerPage={votesPerPage} paginate={this.paginate}  />
                 </div>
             )
         }
     }
-}
 
 const mapStateToProps = state => ({
     votes: state.voteslist.items,
-    dataVotes: state.voteslist.newItems,
-    // setAuthor: state.voteslist.author,
 })
 
 const mapDispatchToProps = dispatch => ({
-    setVote: (text, endDate, id) => dispatch(setVote(text, endDate, id)),
+    setVote: (text, startDate, endDate, id, author) => dispatch(setVote(text, startDate, endDate, id, author)),
     fetchData: data => dispatch(fetchDate(data)),
-    // fetchComments: data => dispatch(fetchComments(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -3,6 +3,7 @@ const router = express.Router();
 const paginate = require('jw-paginate');
 const verify = require('./verifyToken');
 const jwt = require('jsonwebtoken');
+const User = require('../models/user')
 
 const Vote = require('../models/vote');
 
@@ -29,8 +30,26 @@ router.get('/vote', verify, async (req, res, next) => {
     }
 });
 
-router.patch('/giveVote', async (req, res) => {
+router.get('/:userId/votedPosts',  async (req, res) => {
+    
+         const user = await User.findOne({ _id: req.params.userId});
+         const votedPost = user.votedPosts;
+         res.status(400).send({ votedPost })
    
+} )
+
+router.patch('/:voteId/:user/toVote', verify, async (req, res) => {
+    try {
+        jwt.verify(req.token, 'secretkey', async () => {
+          await Vote.updateOne({ _id: req.params.voteId }, { $push: { votedUsers: req.params.user }, $inc: { count: 1 }  });
+          await User.updateOne({ _id: req.params.user }, { $push: { votedPosts: req.params.voteId } })
+        //   const user = await User.findOne({ _id: req.params.user });
+        //   const votedPosts = user.votedPosts;
+          res.status(400).send({ status: true});
+        })
+     } catch (err) {
+        res.status(404);
+     }
 })
 
 router.post('/vote',  async (req, res) => {

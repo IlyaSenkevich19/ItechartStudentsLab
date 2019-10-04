@@ -65,6 +65,7 @@ class FormSignUp extends React.PureComponent {
                         name='date'
                         component={myInput}
                         type='date'
+                        dateFormat="DD-MM-YYYY"
                         placeholder='Enter your date of birth'
                     />
                 </FormGroup>

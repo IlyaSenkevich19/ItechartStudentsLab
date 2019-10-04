@@ -21,8 +21,8 @@ class CommentForm extends React.PureComponent {
         const date = Date.now();
         const author = authService.currentUser.email;
         const comment = await userService.createComment(this.state.comment, date, author, this.props.voteId)
-        this.props.setComment(comment.author, comment.date, comment.text);
-
+        const setComment = comment.comment;
+        this.props.setComment(setComment.author, setComment.date, setComment.text,setComment.voteId );
     }
 
 
@@ -44,7 +44,7 @@ class CommentForm extends React.PureComponent {
 
 
 const mapDispatchToProps = dispatch => ({
-   setComment: (author, date, text) => dispatch(setComments(author, date, text))
+   setComment: (author, date, text, voteId) => dispatch(setComments(author, date, text, voteId))
 })
 
-export default connect(mapDispatchToProps, null)(CommentForm);
+export default connect(null, mapDispatchToProps)(CommentForm);

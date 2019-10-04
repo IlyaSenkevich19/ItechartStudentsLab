@@ -6,6 +6,7 @@ const voteSchema = new mongoose.Schema({
     startDate : { type: Date, required: true },
     status    : { type: Boolean, default: true },
     count     : { type: Number, default: 0 },
+    votedUsers: [],
     author    : { type: String },
     comments  : [],
     endDate   : { type: Date, required: true },

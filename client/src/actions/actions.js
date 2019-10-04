@@ -1,10 +1,10 @@
-import comment from "../reducers/commentReducer"
-
-export const setVote = (text, endDate, id) => ({
+export const setVote = (text, startDate, endDate, id, author) => ({
     type: "SET_VOTE",
     text,
+    startDate,
     endDate,
-    id
+    id,
+    author
 })
 
 export const setFilter = filter => ({
@@ -38,14 +38,13 @@ export const currentPage = currentPage => ({
     currentPage
 })
 
-export const setComments = (author, date, text) => ({
+export const setComments = (author, date, text, voteId) => ({
     type: "CREATE_COMMENT",
     author,
     date,
-    text
+    text,
+    voteId
 });
-
-
 
 export const fetchDate = url => dispatch => {
     const token = localStorage.getItem('currentUser')

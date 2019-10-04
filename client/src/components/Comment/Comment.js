@@ -3,15 +3,14 @@ import { Alert } from 'reactstrap';
 
 
 class Comment extends React.PureComponent {
-    state ={
+    state = {
         visible: true
     }
     onDismiss = () => {
         this.setState({ visible: false });
-      }
+    }
     render() {
         const comment = this.props.comments;
-        console.log(comment);
         return (
             <div>
                 {comment ?

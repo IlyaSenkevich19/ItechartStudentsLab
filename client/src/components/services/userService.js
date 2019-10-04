@@ -35,15 +35,50 @@ const createComment = async (commentText, date, author, voteId) => {
     try {
         const req = await fetch('http://localhost:8000/api/comment', options);
         const res = await req.json();
-        console.log(res);
         return res;
     } catch(err) {
         console.log(err);
     }
 }
 
+const toVote = async (currentUserId, currentVoteId) => {
+    const token = localStorage.getItem('currentUser')
+    const options = {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": `Bearer ${token}`,
+        }
+    }
+    try {
+        const req = await fetch(`http://localhost:8000/api/${currentVoteId}/${currentUserId}/toVote`, options);
+        const res = await req.json();
+        return res;
+    } catch (err) {
+        console.log(err);
+    }
+}
+const getVotedPosts = async (currentUserId) => {
+    const token = localStorage.getItem('currentUser')
+    const options = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": `Bearer ${token}`,
+        }
+    }
+    try {
+        const req = await fetch(`http://localhost:8000/api/${currentUserId}/votedPosts`, options);
+        const res = await req.json();
+        return res;
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 export const userService = {
     createVote,
-    createComment
+    createComment,
+    toVote,
+    getVotedPosts
 }

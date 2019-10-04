@@ -1,6 +1,5 @@
 const initialState = {
     items: [],
-    newItems: [],
     pageSize: 5,
     totalVotesCount: 0,
     currentPage: 1,
@@ -12,17 +11,22 @@ const getDataSuccess = (state, type) => ({
     items: type     
 });
 
-const getNewItems = ( state, data) => {
-   const { text, endDate, id } = data;
-   const item = {}
-    item.text = text;
-    item.endDate = endDate;
-    item.id = id;
-    const  newData = state.newItems.push(item);  
+const getNewItems = ( state, data) => {   
+    state.items.unshift(data);  
    return {
-       ...state,
-       newData
+       ...state
    }
+}
+
+const createComment = (state, data) => {
+    
+    const vote = state.items.filter(item => item._id === data.voteId)[0];
+    vote.comments.unshift(data);
+    
+
+    return {
+        ...state
+    }
 }
 
 const getAuthor = (state, email) => ({
@@ -40,7 +44,9 @@ const votes = (state = initialState, action) => {
             return {
                 ...state, currentPage: action.currentPage
             }
-        }   
+        }   ;
+        case 'CREATE_COMMENT':
+            return createComment(state, action);
         case "GET_AUTHOR":
             return getAuthor(state, action.email) 
         default:
