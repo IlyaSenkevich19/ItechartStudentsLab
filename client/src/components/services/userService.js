@@ -58,6 +58,21 @@ const toVote = async (currentUserId, currentVoteId) => {
         console.log(err);
     }
 }
+const statusVoteChanged = async currentVoteId => {
+    const options = {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }
+    try {
+        const req = await fetch(`http://localhost:8000/api/${currentVoteId}/statusChanged`, options);
+        const res = await req.json();
+        return res;
+    } catch (err) {
+        console.log(err);
+    }
+}
 const getVotedPosts = async (currentUserId) => {
     const token = localStorage.getItem('currentUser')
     const options = {
@@ -80,5 +95,6 @@ export const userService = {
     createVote,
     createComment,
     toVote,
-    getVotedPosts
+    getVotedPosts,
+    statusVoteChanged
 }

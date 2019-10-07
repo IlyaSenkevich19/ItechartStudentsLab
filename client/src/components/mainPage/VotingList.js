@@ -6,7 +6,6 @@ import Vote from './Vote';
 class VotingList extends React.PureComponent {
     render() {
         const voteInfo = this.props.voteList;
-        console.log(voteInfo);
             const listVote = voteInfo.map(vote =>  <div key={vote._id} > <Vote   vote={vote} />   </div> );
             return (
                 <div className='listDay'>

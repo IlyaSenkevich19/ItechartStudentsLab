@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Header from './Header';
-import Main from './Main';
+import MainContainer from './MainContainer';
 import Footer from './Footer';
 
 
@@ -12,14 +12,11 @@ class App extends React.PureComponent {
       return (
         <div>
           <Header />
-          <Main />
+          <MainContainer />
           <Footer />
         </div>
       );
     }
   }
-
-
-
 
 export default App;

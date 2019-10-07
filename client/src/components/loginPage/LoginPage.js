@@ -54,7 +54,7 @@ class LoginPage extends React.PureComponent {
         } else if (currentUser.role === Role.Moderator) {
             return <Redirect to='/moderator' />
         } else if (currentUser.role === Role.User) {
-            return <Redirect to='/' />
+            return <Redirect to='/main' />
         } else {
             return (
                 <Form className='login-form'>

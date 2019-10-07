@@ -3,6 +3,10 @@ import React from 'react';
 import history from '../../history/history';
 
 import { authService } from '../services/authService';
+import { connect } from 'react-redux';
+
+import { setVote, fetchDate } from '../../actions/actions';
+import VotingList from '../mainPage/VotingList'
 
 
 class AdminPage extends React.PureComponent {
@@ -10,8 +14,6 @@ class AdminPage extends React.PureComponent {
     state = {
         users: null,
         moderators: null,
-        blockStatus: true,
-        role: 'user',
     }
 
     logout = () => {
@@ -22,42 +24,30 @@ class AdminPage extends React.PureComponent {
 
     componentDidMount = async () => {
         const users = await authService.getAllUsers();
-        const moderators = await authService.getAllModerators()
+        const moderators = await authService.getAllModerators();
+        this.props.fetchData('http://localhost:8000/api/vote')
         this.setState({
             users: users,
             moderators: moderators,
         })
-        console.log(this.state.moderators, this.state.users)
+
     }
 
-    makeModerator = async (userId, role) => {
-        const res = await authService.makeModerator(userId, role);
-        if (res === 'user') {
-            this.setState({
-                role: 'moderator'
-            })
-            console.log('1')
-        } else {
-            this.setState({
-                role: 'user'
-            })
-            console.log('2')
-        }
+    makeModerator = async userId => {
+       const res = await authService.makeModerator(userId);
+       console.log(res);
     }
 
-    blockUser = async (userId, blockStatus) => {
-        const blockStatusRes = await authService.blockUser(userId, blockStatus);
-        this.setState({
-            blockStatus: !blockStatusRes
-        })
-        console.log(blockStatusRes)
+    blockUser = async userId => {
+       const res = await authService.blockUser(userId);
+    console.log(res);
     }
 
     render() {
-        const { users, moderators, blockStatus, role } = this.state;
+        const { users, moderators} = this.state;
         if (users === null) { return <div>loading</div> } else {
-            const user = users.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id, blockStatus)}>blockUser</button> <button onClick={() => this.makeModerator(user._id, role)}>make moderator</button></div>);
-            const moderator = moderators.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id, blockStatus)}>blockUser</button> <button onClick={() => this.makeModerator(user._id, role)}>make moderator</button></div>);
+            const user = users.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button> <button onClick={() => this.makeModerator(user._id)}>make moderator</button></div>);
+            const moderator = moderators.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button> <button onClick={() => this.makeModerator(user._id)}>make moderator</button></div>);
             return (
                 <div>
                     <button onClick={this.logout} >log out</button>
@@ -77,13 +67,22 @@ class AdminPage extends React.PureComponent {
                         </div>
                     }
                     Votes:
+                    <VotingList voteList={this.props.votes} />
                 </div>
             );
         }
     }
 }
 
+const mapDispatchToProps = dispatch => ({
+    fetchData: data => dispatch(fetchDate(data))
+})
+
+const mapStateToProps = state => ({
+    votes: state.voteslist.items,
+})
 
 
 
-export default AdminPage;
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminPage);

@@ -1,9 +1,11 @@
+
+
 const initialState = {
     items: [],
     pageSize: 5,
     totalVotesCount: 0,
     currentPage: 1,
-    author: 'none'
+    author: 'none',
 }
 
 const getDataSuccess = (state, type) => ({
@@ -21,17 +23,24 @@ const getNewItems = ( state, data) => {
 const createComment = (state, data) => {
     
     const vote = state.items.filter(item => item._id === data.voteId)[0];
+    vote.comments = [];
     vote.comments.unshift(data);
     
-
     return {
         ...state
     }
 }
 
-const getAuthor = (state, email) => ({
+
+const getVotedPosts = (state, posts) => ({
     ...state,
-    author: email
+    posts
+});
+
+const setCurrentPage = (state, currentPage) => ({
+    ...state,
+    currentPage: currentPage
+
 })
 
 const votes = (state = initialState, action) => {
@@ -40,15 +49,12 @@ const votes = (state = initialState, action) => {
             return getNewItems(state, action)
         case 'GET_DATA_SUCCESS':
             return getDataSuccess(state, action.payload);
-        case 'SET_CURRENT_PAGE': {
-            return {
-                ...state, currentPage: action.currentPage
-            }
-        }   ;
+        case 'SET_CURRENT_PAGE': 
+            return setCurrentPage(state,action.currentPage);
         case 'CREATE_COMMENT':
-            return createComment(state, action);
-        case "GET_AUTHOR":
-            return getAuthor(state, action.email) 
+            return createComment(state, action); 
+        case "VOTED_POSTS": 
+            return getVotedPosts(state, action.payload); 
         default:
             return state
     }

@@ -13,7 +13,8 @@ import SignUpPage from './components/signUpPage/SignUpPage';
 import AdminPage from './components/adminPage/AdminPage'
 import moderatorPage from './components/moderator/moderatorPage';
 import PrivateRoute from './components/PrivateRoute';
-import { Role } from './components/role'
+import { Role } from './components/role';
+import PageNonUser from './components/pageForNonUser/PageNonUser'
 
 ReactDOM.render(
     <Provider store={store}>
@@ -21,7 +22,8 @@ ReactDOM.render(
             <Switch>
                 <Route path='/log-in' component={LoginPage} />
                 <Route path='/sign-up' component={SignUpPage} />
-                <PrivateRoute path='/' roles={Role.User} component={App} exact />
+                <Route path='/' component={PageNonUser} exact  />
+                <PrivateRoute path='/main' roles={Role.User} component={App}  />
                 <PrivateRoute path='/admin' roles={Role.Admin} component={AdminPage} />
                 <PrivateRoute path='/moderator' roles={Role.Moderator} component={moderatorPage} />
             </Switch>

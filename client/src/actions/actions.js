@@ -7,9 +7,10 @@ export const setVote = (text, startDate, endDate, id, author) => ({
     author
 })
 
-export const setFilter = filter => ({
-    type: "SET_FILTER",
-    payload: filter
+
+export const votedPosts = posts => ({
+    type: "VOTED_POSTS",
+    payload: posts
 })
 
 export const toggleVote = toggle => ({
@@ -17,16 +18,6 @@ export const toggleVote = toggle => ({
     payload: toggle
 })
 
-export const filterVotes = {
-    SHOW_COMPLETED: "SHOW_COMPLETED",
-    SHOW_ACTIVE: "SHOW_ACTIVE",
-    SHOW_ALL: "SHOW_ALL"
-}
-
-export const setAuthor = email => ({
-    type: "GET_AUTHOR",
-    email
-})
 
 export const getDataSuccess = type => ({
     type: "GET_DATA_SUCCESS",

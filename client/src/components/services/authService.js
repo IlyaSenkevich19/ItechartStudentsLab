@@ -40,7 +40,7 @@ const getAllModerators = async () => {
     }
 }
 
-const blockUser = async (userId, blockStatus) => {
+const blockUser = async userId => {
     const token = localStorage.getItem('currentUser');
     const options = {
         method: 'PATCH',
@@ -51,7 +51,7 @@ const blockUser = async (userId, blockStatus) => {
     };
 
     try {
-        const req = await fetch(`http://localhost:8000/api/admin/users/${userId}/${blockStatus}`, options);
+        const req = await fetch(`http://localhost:8000/api/admin/users/${userId}/block`, options);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -59,7 +59,7 @@ const blockUser = async (userId, blockStatus) => {
     }
 }
 
-const makeModerator = async (userId, role) => {
+const makeModerator = async userId => {
     const token = localStorage.getItem('currentUser');
     const options = {
         method: 'PATCH',
@@ -69,7 +69,7 @@ const makeModerator = async (userId, role) => {
         }
     };
     try {
-        const req = await fetch(`http://localhost:8000/api/admin/user/${userId}/${role}`, options);
+        const req = await fetch(`http://localhost:8000/api/admin/user/${userId}/role`, options);
         const res = await req.json();
         return res;
     } catch (err) {

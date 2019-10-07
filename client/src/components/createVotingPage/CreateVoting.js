@@ -1,6 +1,10 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
+
+import {userService} from '../services/userService'
+import {authService} from '../services/authService';
+import { setVote} from '../../actions/actions';
 
 class CreateVoting extends React.PureComponent {
 
@@ -24,6 +28,12 @@ class CreateVoting extends React.PureComponent {
             [name]: value,
             startDate: Date.now()
         })
+    }
+
+    createVoting = async () => {
+        const { voteText, endDate } = this.state;
+        const content = await userService.createVote(voteText, endDate, this.state.startDate, authService.currentUser.email);
+        this.props.setVote(content.text,  content.startDate, content.endDate, content._id, content.author);
     }
 
 
@@ -51,4 +61,10 @@ class CreateVoting extends React.PureComponent {
     }
 }
 
-export default CreateVoting;
+
+
+const mapDispatchToProps = dispatch => ({
+    setVote: (text, startDate, endDate, id, author) => dispatch(setVote(text, startDate, endDate, id, author)),
+})
+
+export default connect(null, mapDispatchToProps)(CreateVoting);

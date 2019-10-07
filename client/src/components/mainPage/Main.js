@@ -22,7 +22,8 @@ class Main extends React.PureComponent {
         endDate: '',
         currentPage: 1,
         votesPerPage: 3,
-        author: null
+        author: null,
+        votes: null,
     }
 
     toggle = () => {
@@ -46,7 +47,6 @@ class Main extends React.PureComponent {
         })
     }
 
-
     createVoting = async () => {
         const { voteText, endDate } = this.state;
         const content = await userService.createVote(voteText, endDate, this.state.startDate, authService.currentUser.email);
@@ -58,8 +58,8 @@ class Main extends React.PureComponent {
     }
 
     render() {
-        const { votes} = this.props;
-        const countVotes = votes.length;
+        const { votes } = this.props;
+        const countVotes = this.props.numberVotes;
         const { currentPage, votesPerPage } = this.state;
         const indexOfLastVote = currentPage * votesPerPage;
         const indexOfFirstVote = indexOfLastVote - votesPerPage;
@@ -89,13 +89,11 @@ class Main extends React.PureComponent {
         }
     }
 
-const mapStateToProps = state => ({
-    votes: state.voteslist.items,
-})
+
 
 const mapDispatchToProps = dispatch => ({
     setVote: (text, startDate, endDate, id, author) => dispatch(setVote(text, startDate, endDate, id, author)),
-    fetchData: data => dispatch(fetchDate(data)),
+    fetchData: data => dispatch(fetchDate(data))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(null, mapDispatchToProps)(Main);
