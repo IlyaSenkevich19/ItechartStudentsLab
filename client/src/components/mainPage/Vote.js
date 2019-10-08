@@ -26,7 +26,7 @@ class Vote extends React.PureComponent {
     timeToFinishVote = () => {
         const { vote } = this.props;
         if (vote === undefined) { return <div>wait</div> } else {
-            const startDate = new Date(vote.startDate);
+            const startDate = new Date();
             const convertStartDate = startDate.toLocaleString();
             const finishDate = new Date(vote.endDate);
             const daysToFinishVote = Math.round((finishDate - startDate) / (1000 * 60 * 60 * 24));

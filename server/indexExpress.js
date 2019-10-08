@@ -5,6 +5,9 @@ const cors = require('cors');
 const express = require("express");
 const bodyParser = require("body-parser");
 
+const socket = require('socket.io');
+
+
 
 const app = express();
 app.use(cors());
@@ -44,9 +47,15 @@ app.use('/api/admin/', adminRoute);
 app.use('/api/', commentRoute);
 
 
-app.listen(8000, () => {
+server = app.listen(8000, () => {
     console.log("Express running on the port 8000");
 });
+
+io = socket(server);
+
+io.on('connection', socket => {
+    console.log(socket.id)
+})
 
 
 
