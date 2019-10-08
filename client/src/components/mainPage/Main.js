@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { setVote, fetchDate} from '../../actions/actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
+import io from "socket.io-client";
 
 
 // import CreateVoting from '../createVotingPage/CreateVoting';
@@ -25,6 +26,7 @@ class Main extends React.PureComponent {
         author: null,
         votes: null,
     }
+    socket = io('http://localhost:8000');
 
     toggle = () => {
         this.setState(prevState => ({
@@ -50,11 +52,21 @@ class Main extends React.PureComponent {
     createVoting = async () => {
         const { voteText, endDate } = this.state;
         const content = await userService.createVote(voteText, endDate, this.state.startDate, authService.currentUser.email);
-        this.props.setVote(content.text,  content.startDate, content.endDate, content._id, content.author);
+        this.socket.emit('CREATE_VOTE', {
+            author: content.author,
+            text: content.text,
+            endDate: content.endDate,
+            startDate: content.startDate,
+            _id: content._id
+        })
     }
 
     componentDidMount = () => {
         this.props.fetchData(`http://localhost:8000/api/vote`);
+        this.socket.on("RECEIVE_VOTE", data => {
+            console.log(data);
+            this.props.setVote(data.text,  data.startDate, data.endDate, data._id, data.author);
+        })
     }
 
     render() {

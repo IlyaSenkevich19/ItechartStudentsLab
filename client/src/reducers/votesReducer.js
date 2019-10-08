@@ -23,8 +23,9 @@ const getNewItems = ( state, data) => {
 const createComment = (state, data) => {
     
     const vote = state.items.filter(item => item._id === data.voteId)[0];
-    vote.comments = [];
-    vote.comments.unshift(data);
+    console.log(vote)
+    vote.comments.push(data);
+    console.log(vote)
     
     return {
         ...state

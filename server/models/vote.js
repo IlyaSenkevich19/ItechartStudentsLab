@@ -7,6 +7,7 @@ const voteSchema = new mongoose.Schema({
     status    : { type: Boolean, default: true },
     count     : { type: Number, default: 0 },
     votedUsers: [],
+    confirm   : { type: Boolean, default: false },
     author    : { type: String },
     comments  : [],
     endDate   : { type: Date, required: true },

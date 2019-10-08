@@ -23,7 +23,7 @@ ReactDOM.render(
                 <Route path='/log-in' component={LoginPage} />
                 <Route path='/sign-up' component={SignUpPage} />
                 <Route path='/' component={PageNonUser} exact  />
-                <PrivateRoute path='/main' roles={Role.User} component={App}  />
+                <PrivateRoute path='/main' roles={[Role.User, Role.Admin, Role.Moderator]} component={App}  />
                 <PrivateRoute path='/admin' roles={Role.Admin} component={AdminPage} />
                 <PrivateRoute path='/moderator' roles={Role.Moderator} component={moderatorPage} />
             </Switch>

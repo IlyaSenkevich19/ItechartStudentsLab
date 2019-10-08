@@ -1,31 +1,39 @@
 import React from 'react';
 
 import history from '../../history/history';
+import { connect } from 'react-redux';
+
+import { setVote, fetchDate} from '../../actions/actions';
 
 import { authService } from '../services/authService';
+import { moderatorService } from '../services/moderatorService.js';
 
 
 class ModeratorPage extends React.PureComponent {
 
     state = {
-        users: null
+        users: null,
+        toConfirm: null
     }
 
     logout = () => {
         localStorage.removeItem('currentUser');
-        // this.props.setRoles('non-user');
         history.push('/log-in');
     }
 
     componentDidMount = async () => {
         const users = await authService.getAllUsers();
+        this.props.fetchData(`http://localhost:8000/api/vote`);
+        const votesToConfirm = await moderatorService.confirmVote()
         this.setState({
-            users: users
+            users: users,
+            toConfirm: votesToConfirm
         }) 
     }
 
     render() {
-        const { users } = this.state;
+        const { users, toConfirm } = this.state;
+        console.log(toConfirm)
         return (
             <div>
                <button onClick={this.logout} >log out</button>
@@ -39,13 +47,31 @@ class ModeratorPage extends React.PureComponent {
                             )}
                         </div>
                     }
+
+            
+                Votes To Confirm:
+                {toConfirm &&
+                        <div>
+                            {toConfirm.map(toConfirm =>
+                                <div key={toConfirm._id}>{toConfirm.text}</div>
+                            )}
+                        </div>
+                    }
+                
                 </div>
             </div>
         );
     }
 }
 
+const mapDispatchToProps = dispatch => ({
+    fetchData: data => dispatch(fetchDate(data))
+})
+const mapStateToProps = state => ({
+    vote: state.voteslist.items
+})
 
 
 
-export default ModeratorPage;
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModeratorPage);

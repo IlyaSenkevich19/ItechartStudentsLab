@@ -37,6 +37,8 @@ export const setComments = (author, date, text, voteId) => ({
     voteId
 });
 
+
+
 export const fetchDate = url => dispatch => {
     const token = localStorage.getItem('currentUser')
     fetch(url, {

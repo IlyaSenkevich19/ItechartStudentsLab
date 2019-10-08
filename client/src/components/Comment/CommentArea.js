@@ -13,7 +13,7 @@ class CommentArea extends React.PureComponent {
             <div>
               <Title />  
               <CommentList comments={this.props.comments} />
-              <CommentForm  voteId={this.props.voteId} />
+              <CommentForm comments={this.props.comments}  voteId={this.props.voteId} />
             </div>
         )
     }

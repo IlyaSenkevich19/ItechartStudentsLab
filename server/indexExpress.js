@@ -30,6 +30,7 @@ const authRoute = require('./routes/auth');
 // const postRoute = require('./routes/posts');
 const voteRoute = require('./routes/votes');
 const adminRoute = require('./routes/adminRoute');
+const moderatorRoute = require('./routes/moderatorRoute');
 const commentRoute = require('./routes/comments');
 const mongoose = require('mongoose');
 
@@ -44,6 +45,8 @@ app.use('/api/user', authRoute);
 // app.use('/api/posts', postRoute);
 app.use('/api/', voteRoute);
 app.use('/api/admin/', adminRoute);
+app.use('/api/moderator', moderatorRoute);
+app.use('/api/', commentRoute);
 app.use('/api/', commentRoute);
 
 
@@ -55,6 +58,16 @@ io = socket(server);
 
 io.on('connection', socket => {
     console.log(socket.id)
+
+    socket.on("SEND_MESSAGE", data => {
+        io.emit('RECEIVE_MESSAGE', data)
+    })
+    socket.on("CREATE_VOTE", data => {
+        io.emit('RECEIVE_VOTE', data)
+    })
+
+
+
 })
 
 
