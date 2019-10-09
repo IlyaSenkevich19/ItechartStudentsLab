@@ -6,7 +6,7 @@ import Main from './Main';
 class MainContainer extends React.PureComponent {
 
     state = {
-        votesList: []
+        votesList: [], 
     }
 
     filterVotes = e => {

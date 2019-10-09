@@ -6,9 +6,11 @@ class Comment extends React.PureComponent {
     state = {
         visible: true
     }
+    
     onDismiss = () => {
         this.setState({ visible: false });
     }
+
     render() {
         const comment = this.props.comments;
         return (

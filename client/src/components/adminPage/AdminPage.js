@@ -22,6 +22,11 @@ class AdminPage extends React.PureComponent {
         window.location.reload();
     }
 
+    toMainPage = () => {
+        history.push('/main');
+        window.location.reload();
+    }
+
     componentDidMount = async () => {
         const users = await authService.getAllUsers();
         const moderators = await authService.getAllModerators();
@@ -51,6 +56,7 @@ class AdminPage extends React.PureComponent {
             return (
                 <div>
                     <button onClick={this.logout} >log out</button>
+                    <button onClick={this.toMainPage} >Main Page</button>
                     <h1>Admin</h1>
                     USERS:
                 <div>
@@ -66,8 +72,8 @@ class AdminPage extends React.PureComponent {
                             {moderator}
                         </div>
                     }
-                    Votes:
-                    <VotingList voteList={this.props.votes} />
+                    
+                    {/* <VotingList voteList={this.props.votes} /> */}
                 </div>
             );
         }

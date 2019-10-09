@@ -5,6 +5,7 @@ body, html {
   height: 100%;
   font-family: 'Poppins', sans-serif;
   color: #222;
+  background-color: white;
 }
 
 .container-fluid > .navbar-brad {
@@ -26,6 +27,7 @@ body, html {
 
 .jumbotron {
   margin-bottom: 0px;
+  background-color: #bb89ec;
 }
 
 .pagination {
@@ -39,6 +41,7 @@ body, html {
 
 footer {
   height: 300px;
+  background-color: #412457;
 }
 
 .comment-list {

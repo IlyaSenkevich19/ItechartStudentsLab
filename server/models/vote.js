@@ -5,6 +5,7 @@ const voteSchema = new mongoose.Schema({
     date      : { type: Date, required: true, default: Date.now },
     startDate : { type: Date, required: true },
     status    : { type: Boolean, default: true },
+    blockStatus: { type: Boolean, default: false },
     count     : { type: Number, default: 0 },
     votedUsers: [],
     confirm   : { type: Boolean, default: false },
