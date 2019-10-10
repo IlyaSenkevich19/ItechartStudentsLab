@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
   date        : { type: Date, default: Date.now },
   role        : { type: String, default: 'non-user'},
   blockStatus : { type: Boolean, default: false },
-  votedPosts  : []
+  votedPosts  : [],
+  // sendBlockStatus: { type: Boolean, default:  }
 });
 
 module.exports = mongoose.model('User', userSchema);

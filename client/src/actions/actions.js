@@ -1,10 +1,11 @@
-export const setVote = (text, startDate, endDate, id, author) => ({
+export const setVote = (text, startDate, endDate, id, author, block) => ({
     type: "SET_VOTE",
     text,
     startDate,
     endDate,
     id,
-    author
+    author, 
+    block
 })
 
 
@@ -36,6 +37,11 @@ export const setComments = (author, date, text, voteId) => ({
     text,
     voteId
 });
+
+export const getUsersToBlock = user => ({
+    type: 'GET_USERS_TO_BLOCK',
+    user
+})
 
 
 

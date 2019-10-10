@@ -52,12 +52,14 @@ class Main extends React.PureComponent {
     createVoting = async () => {
         const { voteText, endDate } = this.state;
         const content = await userService.createVote(voteText, endDate, this.state.startDate, authService.currentUser.email);
+        console.log(content)
         this.socket.emit('CREATE_VOTE', {
             author: content.author,
             text: content.text,
             endDate: content.endDate,
             startDate: content.startDate,
-            _id: content._id
+            _id: content._id, 
+            blockStatus: content.blockStatus
         })
     }
 
@@ -65,7 +67,7 @@ class Main extends React.PureComponent {
         this.props.fetchData(`http://localhost:8000/api/vote`);
         this.socket.on("RECEIVE_VOTE", data => {
             console.log(data);
-            this.props.setVote(data.text,  data.startDate, data.endDate, data._id, data.author);
+            this.props.setVote(data.text,  data.startDate, data.endDate, data._id, data.author, data.blockStatus);
         })
     }
 
@@ -104,7 +106,7 @@ class Main extends React.PureComponent {
 
 
 const mapDispatchToProps = dispatch => ({
-    setVote: (text, startDate, endDate, id, author) => dispatch(setVote(text, startDate, endDate, id, author)),
+    setVote: (text, startDate, endDate, id, author, block) => dispatch(setVote(text, startDate, endDate, id, author, block)),
     fetchData: data => dispatch(fetchDate(data))
 })
 

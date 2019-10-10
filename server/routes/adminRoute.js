@@ -15,6 +15,18 @@ router.get('/users', verify, async (req, res) => {
    }
 });
 
+router.get('/:userId/user', verify, async (req, res) => {
+   try {
+      jwt.verify(req.token, 'secretkey', async () => {
+         const user = await User.findOne({_id: req.params.userId});
+        
+         res.send(user);
+      })
+   } catch (err) {
+      res.sendStatus(404);
+   }
+});
+
 router.get('/moderators', verify, (req, res) => {
    try {
       jwt.verify(req.token, 'secretkey', async () => {
@@ -28,26 +40,7 @@ router.get('/moderators', verify, (req, res) => {
 });
 
 router.patch('/users/:userId/block', async (req, res) => {
-   // try {
-   //    const user = await User.updateOne({ _id: req.params.userId }, { $set: { blockStatus: req.params.blockStatus } });
-   //    const currUser = await User.findOne({ _id: req.params.userId });
-   //    if (currUser.blockStatus === true) {
-   //       await User.updateOne({ _id: req.params.userId }, { $set: { role: 'non-user' } });
-   //       res.status(200).send(JSON.stringify(`${currUser.email} is blocked`));
-   //    } else {
-   //       await User.updateOne({ _id: req.params.userId }, { $set: { role: 'user' } });
-   //       res.status(200).send(JSON.stringify(`${currUser.email} is unblocked`))
-   //    }
-   //    if (!user) {
-   //       res.status(401).send(JSON.stringify("There is no such user"))
-   //    } else {
-   //       res.status(200).send(currUser.blockStatus)
-   //    }
-   // } catch (err) {
-   //    res.status(404);
-   // }
    try {
-      // const user = await User.updateOne({ _id: req.params.userId }, { $set: { blockStatus: req.params.blockStatus } });
       const currUser = await User.findOne({ _id: req.params.userId });
       if (currUser.blockStatus === true) {
          await User.updateOne({ _id: req.params.userId }, { $set: { blockStatus: false  } });
@@ -62,21 +55,8 @@ router.patch('/users/:userId/block', async (req, res) => {
 })
 
 router.patch('/user/:userId/role', async (req, res) => {
-   // try {
-   //    const user = await User.updateOne({ _id: req.params.userId }, { $set: { role: req.params.role } });
-   //    const currUser = await User.findOne({ _id: req.params.userId });
-   //    if (!user) {
-   //       res.status(401).send(JSON.stringify("There is no such user"))
-   //    } else {
-   //       res.status(200).send(JSON.stringify(currUser.role))
-   //    }
-   // } catch (err) {
-   //    res.status(404);
-   // }
    try {
-      // const user = await User.updateOne({ _id: req.params.userId }, { $set: { role: req.params.role } });
       const currUser = await User.findOne({ _id: req.params.userId });
-
       if(currUser.role === 'moderator') {
          await User.updateOne({ _id: req.params.userId }, { $set: { role: 'user' } });
          res.status(200).send(JSON.stringify(`${currUser.email} is user`));
@@ -84,8 +64,6 @@ router.patch('/user/:userId/role', async (req, res) => {
          await User.updateOne({ _id: req.params.userId }, { $set: { role: 'moderator' } });
          res.status(200).send(JSON.stringify(`${currUser.email} is moderator`));
       }
-
-   
    } catch (err) {
       res.status(404);
    }

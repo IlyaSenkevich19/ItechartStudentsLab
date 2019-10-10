@@ -3,8 +3,9 @@ import React from 'react';
 import history from '../../history/history';
 import { connect } from 'react-redux';
 
-import { setVote, fetchDate } from '../../actions/actions';
+import { fetchDate } from '../../actions/actions';
 import { Button, Accordion, Card   } from 'react-bootstrap';
+import io from "socket.io-client";
 
 import { authService } from '../services/authService';
 import { moderatorService } from '../services/moderatorService.js';
@@ -16,25 +17,31 @@ class ModeratorPage extends React.PureComponent {
         users: null,
         toConfirm: null
     }
+    socket = io('http://localhost:8000');
 
     logout = () => {
         localStorage.removeItem('currentUser');
         history.push('/log-in');
+        window.location.reload();
     }
     toMainPage = () => {
         history.push('/main');
     }
 
-
-
     componentDidMount = async () => {
         const users = await authService.getAllUsers();
-        // this.props.fetchData(`http://localhost:8000/api/vote`);
         const votesToConfirm = await moderatorService.getConfirmVote()
         this.setState({
             users: users,
             toConfirm: votesToConfirm
         })
+    }
+    
+    sendUserToAdmin = async userId => {
+      this.socket.emit('SEND_USER_TO_BLOCK', {
+            _id: userId, 
+        })
+    //   await  window.alert('ready');
     }
 
     confirmVote = async voteId => {
@@ -46,7 +53,7 @@ class ModeratorPage extends React.PureComponent {
         const vote = await moderatorService.blockVote(voteId);
         console.log(vote);
     }
-
+  
     render() {
         const { users, toConfirm } = this.state;
         return (
@@ -67,7 +74,7 @@ class ModeratorPage extends React.PureComponent {
                                     <div>
                                         {users.map(user =>
                                             <div>
-                                                <div key={user._id}>{user.email}</div> <button>Send to block</button>
+                                                <div key={user._id}>{user.email}</div> <button onClick={() => this.sendUserToAdmin(user._id)} >Send to block</button>
                                             </div>
                                         )}
                                     </div>
@@ -109,8 +116,6 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
     vote: state.voteslist.items
 })
-
-
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModeratorPage);

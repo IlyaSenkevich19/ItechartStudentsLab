@@ -87,10 +87,31 @@ const getRole = () => {
     }
 }
 
+const getUserToBlock = async userId => {
+    const token = localStorage.getItem('currentUser');
+    const requestOptions = {
+        method: "GET",
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json',
+            "auth-token": `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+    }
+    try {
+        const content = await fetch(`http://localhost:8000/api/admin/${userId}/user`, requestOptions);
+        const users = await content.json();
+        return users;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export const authService = {
     getAllUsers,
     getAllModerators,
     blockUser,
     makeModerator,
-    currentUser: getRole()
+    currentUser: getRole(),
+    getUserToBlock
 };
