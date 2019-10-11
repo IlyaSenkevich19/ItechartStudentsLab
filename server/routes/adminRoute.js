@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/user');
+const Vote = require('../models/vote');
 const jwt = require('jsonwebtoken');
 const verify = require('./verifyToken');
 
@@ -64,6 +65,17 @@ router.patch('/user/:userId/role', async (req, res) => {
          await User.updateOne({ _id: req.params.userId }, { $set: { role: 'moderator' } });
          res.status(200).send(JSON.stringify(`${currUser.email} is moderator`));
       }
+   } catch (err) {
+      res.status(404);
+   }
+})
+
+router.get('/:voteId/:commentId/deleteComment', async (req, res) => {
+   try {
+      const vote = await Vote.updateOne({ _id: req.params.voteId }, { $unset: { comments: req.params.commentId }  });
+      // const comment = vote.comments;
+      // const comm= comment.filter(com => com._id === req.params.commentId );
+      console.log(vote);
    } catch (err) {
       res.status(404);
    }

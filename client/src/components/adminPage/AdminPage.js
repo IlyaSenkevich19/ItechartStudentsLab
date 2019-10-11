@@ -41,7 +41,6 @@ class AdminPage extends React.PureComponent {
         this.socket.on("RECEIVE_USERS", async data => {
             const user = await authService.getUserToBlock(data._id);
             this.props.getUserToBlock(user)
-            // this.setState(state => { return {sendBlockUser: state.unshift(user) }})
         })
     }
 
@@ -58,13 +57,12 @@ class AdminPage extends React.PureComponent {
 
     render() {
         const { users, moderators} = this.state;
-        const { userToBlock } = this.props;
-        console.log(userToBlock[0])
+        const { usersToBlock } = this.props;
      
         if (users === null) { return <div>loading</div> } else {
             const user = users.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button> <button onClick={() => this.makeModerator(user._id)}>make moderator</button></div>);
             const moderator = moderators.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button> <button onClick={() => this.makeModerator(user._id)}>make moderator</button></div>);
-            const usersToBlock = userToBlock.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button></div>);
+            const usersToBlocks = usersToBlock.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button></div>);
             return (
                 <div>
                     <button onClick={this.logout} >log out</button>
@@ -112,9 +110,9 @@ class AdminPage extends React.PureComponent {
                             </Card.Header>
                             <Accordion.Collapse eventKey="2">
                                 <Card.Body>
-                                    {usersToBlock === [] ? <div>There is no users to block</div> :
+                                    {usersToBlocks.length === 0 ? <div>There is no users to block</div> :
                                         <div>
-                                            {usersToBlock}
+                                            {usersToBlocks.length}
                                         </div>
                                     }
                                 </Card.Body>
@@ -134,7 +132,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
     votes: state.voteslist.items,
-    userToBlock: state.users.usersToBlock
+    // userToBlock: state.users.usersToBlock
 })
 
 

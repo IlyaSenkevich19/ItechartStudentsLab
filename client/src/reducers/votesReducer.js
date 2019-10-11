@@ -2,6 +2,7 @@
 
 const initialState = {
     items: [],
+    newComments: [],
     pageSize: 5,
     totalVotesCount: 0,
     currentPage: 1,
@@ -14,24 +15,24 @@ const getDataSuccess = (state, type) => ({
 });
 
 const getNewItems = ( state, data) => {   
-    state.items.unshift(data);  
+    state.items.unshift(data.content);  
    return {
        ...state
    }
 }
 
 const createComment = (state, data) => {
-    
-    const vote = state.items.filter(item => item._id === data.voteId)[0];
-    console.log(vote)
-    vote.comments.push(data);
-    console.log(vote)
-    
+    const contentData = data.content;
+    const vote = state.items.filter(item => item._id === contentData.voteId)[0];
+    vote.comments.unshift(contentData);
+    const newData = [];
+    newData.unshift(contentData)
+   
     return {
-        ...state
+        ...state,
+        newComments: newData
     }
 }
-
 
 const getVotedPosts = (state, posts) => ({
     ...state,

@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from "react-redux";
 
 import { userService } from '../services/userService';
-import { setComments } from '../../actions/actions';
+import { setComments, fetchDate } from '../../actions/actions';
 import { authService } from '../services/authService';
 import io from "socket.io-client";
 
-class CommentForm extends React.PureComponent {
+class CommentForm extends React.Component {
 
     state = {
         comment: ''
@@ -14,15 +14,11 @@ class CommentForm extends React.PureComponent {
 
     socket = io('http://localhost:8000');
 
-
-
     handleChange = e => {
         this.setState({
             comment: e.target.value
         })
     }
-
-   
 
     handleSubmit = async () => {
         const date = Date.now();
@@ -31,30 +27,21 @@ class CommentForm extends React.PureComponent {
         const setComment = comment.comment;
         
         this.socket.emit('SEND_MESSAGE', {
-            author: setComment.author,
-            text: setComment.text,
-            voteId: setComment.voteId,
-            date: setComment.date,
-            _id: setComment._id
+            setComment
         })
-
        this.setState({
            comment: ''
        })
 
     }
 
-    componentDidMount =() => {
-        this.socket.on("RECEIVE_MESSAGE", data => {
-            this.props.setComment(data.author, data.date, data.text, data.voteId, data._id );
+    componentDidMount = () => {
+        this.socket.on("RECEIVE_MESSAGE", () => {
+            this.props.fetchData(`http://localhost:8000/api/vote`);
         })
     }
 
-
     render() {
-
-
-
         return (
             <div>
                 <input
@@ -62,17 +49,14 @@ class CommentForm extends React.PureComponent {
                     value={this.state.comment}
                     placeholder='Type your comment'
                 />
-
                 <button onClick={this.handleSubmit} >add comment</button>
             </div>
         )
     }
 }
 
-
-
 const mapDispatchToProps = dispatch => ({
-   setComment: (author, date, text, voteId) => dispatch(setComments(author, date, text, voteId))
+   fetchData: data => dispatch(fetchDate(data))
 })
 
 export default connect(null, mapDispatchToProps)(CommentForm);

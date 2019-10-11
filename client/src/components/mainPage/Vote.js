@@ -60,6 +60,7 @@ class Vote extends React.PureComponent {
         }
     }
 
+
     render() {
         const { vote } = this.props;
         const { disablePost, statusVote } = this.state;
@@ -90,7 +91,7 @@ class Vote extends React.PureComponent {
                                 </CardBody>
                             </Card>
                         </Collapse>
-                        <CommetArea comments={comments} voteId={_id} />
+                        <CommetArea vote={vote} comments={comments} voteId={_id} />
                         </div>}
                     </div> 
                 </div>

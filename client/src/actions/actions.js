@@ -1,11 +1,6 @@
-export const setVote = (text, startDate, endDate, id, author, block) => ({
+export const setVote = content => ({
     type: "SET_VOTE",
-    text,
-    startDate,
-    endDate,
-    id,
-    author, 
-    block
+    content
 })
 
 
@@ -30,12 +25,9 @@ export const currentPage = currentPage => ({
     currentPage
 })
 
-export const setComments = (author, date, text, voteId) => ({
+export const setComments = content => ({
     type: "CREATE_COMMENT",
-    author,
-    date,
-    text,
-    voteId
+    content
 });
 
 export const getUsersToBlock = user => ({

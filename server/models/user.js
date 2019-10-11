@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   role        : { type: String, default: 'non-user'},
   blockStatus : { type: Boolean, default: false },
   votedPosts  : [],
-  // sendBlockStatus: { type: Boolean, default:  }
+  // sendBlockStatus: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model('User', userSchema);

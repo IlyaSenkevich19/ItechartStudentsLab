@@ -17,7 +17,7 @@ router.post('/comment', verify, async (req, res) => {
             })
             const comment = await newComment.save();
 
-            await Vote.updateOne({ _id: req.body.voteId }, { $push: { comments: comment } })
+            await Vote.updateOne({ _id: req.body.voteId }, { $push: { comments: comment } });
           
             res.status(200).send({  comment  })
         })

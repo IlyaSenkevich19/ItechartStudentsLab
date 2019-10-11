@@ -4,7 +4,12 @@ import { Router, Route, Switch } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import history from './history/history';
 import { Provider } from 'react-redux';
-import store from './store/store'
+import store from './store/store';
+
+
+
+
+import AdminContainer from './components/adminPage/AdminContainer'
 
 import App from './components/mainPage/App';
 import './App.css'
@@ -24,7 +29,7 @@ ReactDOM.render(
                 <Route path='/sign-up' component={SignUpPage} />
                 <Route path='/' component={PageNonUser} exact  />
                 <PrivateRoute path='/main' roles={[Role.User, Role.Admin, Role.Moderator]} component={App}  />
-                <PrivateRoute path='/admin' roles={Role.Admin} component={AdminPage} />
+                <PrivateRoute path='/admin' roles={Role.Admin} component={AdminContainer} />
                 <PrivateRoute path='/moderator' roles={Role.Moderator} component={moderatorPage} />
             </Switch>
         </Router>

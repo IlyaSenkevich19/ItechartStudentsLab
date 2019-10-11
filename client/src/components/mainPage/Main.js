@@ -52,22 +52,16 @@ class Main extends React.PureComponent {
     createVoting = async () => {
         const { voteText, endDate } = this.state;
         const content = await userService.createVote(voteText, endDate, this.state.startDate, authService.currentUser.email);
-        console.log(content)
         this.socket.emit('CREATE_VOTE', {
-            author: content.author,
-            text: content.text,
-            endDate: content.endDate,
-            startDate: content.startDate,
-            _id: content._id, 
-            blockStatus: content.blockStatus
+            content
         })
     }
 
     componentDidMount = () => {
         this.props.fetchData(`http://localhost:8000/api/vote`);
         this.socket.on("RECEIVE_VOTE", data => {
-            console.log(data);
-            this.props.setVote(data.text,  data.startDate, data.endDate, data._id, data.author, data.blockStatus);
+            const content = data.content
+            this.props.setVote(content);
         })
     }
 
@@ -96,7 +90,7 @@ class Main extends React.PureComponent {
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
-                    <VotingList  voteList={currentVotes} />
+                    <VotingList   voteList={currentVotes} />
                     <PaginationPage votesPerPage={votesPerPage} paginate={this.paginate}  />
                 </div>
             )
@@ -106,7 +100,7 @@ class Main extends React.PureComponent {
 
 
 const mapDispatchToProps = dispatch => ({
-    setVote: (text, startDate, endDate, id, author, block) => dispatch(setVote(text, startDate, endDate, id, author, block)),
+    setVote: (content) => dispatch(setVote(content)),
     fetchData: data => dispatch(fetchDate(data))
 })
 

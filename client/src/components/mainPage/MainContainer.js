@@ -34,7 +34,7 @@ class MainContainer extends React.PureComponent {
                 <button type="button" name='ALL' onClick={this.filterVotes} className="btn btn-primary">Все Голосования</button>
                 <button type="button" name="ACTIVE" onClick={this.filterVotes} className="btn btn-primary">Активные голосования</button>
                 <button type="button" name='COMPLETED' onClick={this.filterVotes} className="btn btn-primary">Законченные голосования</button>
-                <Main votes={votesList} numberVotes={numberVotes} />
+                <Main  votes={votes} numberVotes={numberVotes} />
             </div>
         )
     }
@@ -42,6 +42,7 @@ class MainContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
     votes: state.voteslist.items,
+  
 })
 
 
