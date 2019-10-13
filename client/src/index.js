@@ -19,12 +19,14 @@ import AdminPage from './components/adminPage/AdminPage'
 import moderatorPage from './components/moderator/moderatorPage';
 import PrivateRoute from './components/PrivateRoute';
 import { Role } from './components/role';
-import PageNonUser from './components/pageForNonUser/PageNonUser'
+import PageNonUser from './components/pageForNonUser/PageNonUser';
+import Captcha from './components/CaptchaPage/Captcha'
 
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Switch>
+                <Route path='/captcha' component={Captcha} />
                 <Route path='/log-in' component={LoginPage} />
                 <Route path='/sign-up' component={SignUpPage} />
                 <Route path='/' component={PageNonUser} exact  />

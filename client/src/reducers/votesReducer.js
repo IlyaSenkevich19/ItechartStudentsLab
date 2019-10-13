@@ -7,6 +7,7 @@ const initialState = {
     totalVotesCount: 0,
     currentPage: 1,
     author: 'none',
+    chosenVote: null
 }
 
 const getDataSuccess = (state, type) => ({
@@ -44,6 +45,11 @@ const setCurrentPage = (state, currentPage) => ({
     currentPage: currentPage
 
 })
+const chosenVote = (state, id) => ({
+    ...state,
+    chosenVote: id
+
+})
 
 const votes = (state = initialState, action) => {
     switch (action.type) {
@@ -57,6 +63,8 @@ const votes = (state = initialState, action) => {
             return createComment(state, action); 
         case "VOTED_POSTS": 
             return getVotedPosts(state, action.payload); 
+        case "CHOSEN_VOTE": 
+            return chosenVote(state, action.id); 
         default:
             return state
     }

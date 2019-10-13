@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchDate } from '../../actions/actions';
 
 import PaginationPage from '../mainPage/Pagination';
-import Header from '../mainPage/Header';
+import history from '../../history/history';
 import VotingList from '../mainPage/VotingList';
 
 
@@ -18,6 +18,18 @@ class PageNonUser extends React.PureComponent {
         currentPage: 1,
         votesPerPage: 3,
         author: null
+    }
+
+    onLoginPage = () => {
+        localStorage.removeItem('currentUser');
+        history.push('/log-in');
+        window.location.reload();
+    }
+
+    onSignupPage = () => {
+        localStorage.removeItem('currentUser');
+        history.push('/sign-up');
+        window.location.reload();
     }
 
     paginate = pageNumber => {
@@ -40,7 +52,17 @@ class PageNonUser extends React.PureComponent {
         const currentVotes = votes.slice(indexOfFirstVote, indexOfLastVote);
         return (
             <div>
-                <Header />
+                <div>
+                    <nav className='navbar navbar-expand-md navbar-light bg-light sticky-top'>
+                        <div className='container-fluid'>
+                            <div href='#' className='navbar-brad'>Online Voting System</div>
+                            <div className='ml-auto buttons'>
+                                <button onClick={this.onSignupPage} type="button" className="btn btn-primary">Sign Up</button>
+                                <button onClick={this.onLoginPage} type="button" className="btn btn-primary">Log In</button>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
                 <div className='container-fluid main'>
                     <button type="button" className="btn btn-primary">Все Голосования</button>
                     <button type="button" className="btn btn-primary">Активные голосования</button>

@@ -34,6 +34,12 @@ export const getUsersToBlock = user => ({
     type: 'GET_USERS_TO_BLOCK',
     user
 })
+export const chosenVote = id => ({
+    type: 'CHOSEN_VOTE',
+    id
+})
+
+
 
 
 

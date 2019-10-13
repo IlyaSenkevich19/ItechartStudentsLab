@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setVote, fetchDate} from '../../actions/actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 import io from "socket.io-client";
-
+import Notifications from 'react-notify-toast';
 
 // import CreateVoting from '../createVotingPage/CreateVoting';
 import PaginationPage from './Pagination'
@@ -75,6 +75,7 @@ class Main extends React.PureComponent {
         const closeBtn = <button className="close" onClick={this.toggle}></button>;
             return (
                 <div className='container-fluid main'>
+                <Notifications/>
                     <div>Всего голосований: {countVotes}</div>
                     <Button color="danger" onClick={this.toggle}>Create Voting</Button>
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>

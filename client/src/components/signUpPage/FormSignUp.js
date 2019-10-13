@@ -13,15 +13,10 @@ class FormSignUp extends React.PureComponent {
         history.push('/log-in');
     }
 
-    handleSubmit = values => {
-        console.log(JSON.stringify(values));
-    }
-
     render() {
-
         const { handleSubmit } = this.props
         return (
-            <Form className='login-form' onSubmit={handleSubmit}>
+            <Form className='login-form'  onSubmit={handleSubmit}>
                 <h1 className='text-center'>
                     <span className='font-weight-bold'>Online Voting System</span>
                 </h1>

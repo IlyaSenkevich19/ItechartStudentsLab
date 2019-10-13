@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   role        : { type: String, default: 'non-user'},
   blockStatus : { type: Boolean, default: false },
   votedPosts  : [],
+  confirmed   : { type: Boolean, default: false },
   // sendBlockStatus: { type: Boolean, default: false }
 });
 

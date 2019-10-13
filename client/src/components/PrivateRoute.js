@@ -12,6 +12,11 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
         if (roles && roles.indexOf(currentUser.role) === -1) {
             return <Redirect to={{ pathname: '/log-in'}} />
         }
+        if(currentUser.role === 'user' && currentUser.blockStatus === true) {
+            return <Redirect to={{ pathname: '/log-in'}} />
+        }
+
+
         return <Component {...props} />
     }} />
 )

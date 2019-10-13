@@ -5,6 +5,7 @@ import { userService } from '../services/userService';
 import { setComments, fetchDate } from '../../actions/actions';
 import { authService } from '../services/authService';
 import io from "socket.io-client";
+import { Role } from '../role';
 
 class CommentForm extends React.Component {
 
@@ -43,13 +44,16 @@ class CommentForm extends React.Component {
 
     render() {
         return (
+          
             <div>
+                  {authService.currentUser.role === Role.NonUser ? <div>Log in to comment</div> : <div>
                 <input
                     onChange={this.handleChange}
                     value={this.state.comment}
                     placeholder='Type your comment'
                 />
                 <button onClick={this.handleSubmit} >add comment</button>
+                </div>}
             </div>
         )
     }

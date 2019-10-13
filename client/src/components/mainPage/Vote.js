@@ -5,8 +5,10 @@ import CommetArea from '../Comment/CommentArea';
 import { userService } from '../services/userService';
 import { authService } from '../services/authService';
 import { Role } from '../role';
-import { votedPosts } from '../../actions/actions';
-import { connect } from 'react-redux'
+import { votedPosts, chosenVote } from '../../actions/actions';
+import { connect } from 'react-redux';
+
+import history from '../../history/history'
 
 
 
@@ -52,7 +54,10 @@ class Vote extends React.PureComponent {
     }
 
     toVote = async () => {
-        if (authService.currentUser.role === Role.NonUser) { return window.alert('у вас нет доступа для голосования') } else {
+        if (authService.currentUser.role === Role.NonUser) { 
+            history.replace('/captcha'); 
+            this.props.chosenVote(this.props.vote._id);
+    } else {
             const toVote = await userService.toVote(authService.currentUser._id, this.props.vote._id);
             if (toVote.status === true) {
                 this.setState({ countVotes: this.props.vote.count++, disablePost: true })
@@ -105,7 +110,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    setVotedPosts: posts => dispatch(votedPosts(posts))
+    setVotedPosts: posts => dispatch(votedPosts(posts)),
+    chosenVote: id => dispatch(chosenVote(id))
 })
 
 
