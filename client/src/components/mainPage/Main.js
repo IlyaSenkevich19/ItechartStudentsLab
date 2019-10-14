@@ -11,6 +11,7 @@ import PaginationPage from './Pagination'
 import VotingList from './VotingList';
 import {userService} from '../services/userService'
 import {authService} from '../services/authService';
+import { Role } from '../role';
 
 
 
@@ -65,6 +66,10 @@ class Main extends React.PureComponent {
         })
     }
 
+    searchVote = () => {
+        console.log(this.searchVote.value);
+    }
+
     render() {
         const { votes } = this.props;
         const countVotes = this.props.numberVotes;
@@ -77,7 +82,11 @@ class Main extends React.PureComponent {
                 <div className='container-fluid main'>
                 <Notifications/>
                     <div>Всего голосований: {countVotes}</div>
-                    <Button color="danger" onClick={this.toggle}>Create Voting</Button>
+                    {authService.currentUser.role !== Role.NonUser ? <Button color="danger" onClick={this.toggle}>Create Voting</Button> : <div></div> }
+                    {authService.currentUser.role === Role.Admin || authService.currentUser.role === Role.Moderator ? <div>
+                        <Input placeholder='Your vote' name='voteText' ref={input => this.searchVote = input}/>
+                        <button onClick={this.searchVote}>find vote</button>
+                    </div> : <div></div>}
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle} close={closeBtn}>Сreate your vote</ModalHeader>
                         <ModalBody>

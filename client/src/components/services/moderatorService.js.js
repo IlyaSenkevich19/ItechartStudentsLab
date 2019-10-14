@@ -52,10 +52,28 @@ const blockVote = async (voteId) => {
         console.log(err)
     }
 }
+const sendUserToAdmin = async userId => {
+    const token = localStorage.getItem('currentUser');
+    const options = {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": `Bearer ${token}`,  
+        }
+    };
+    try {
+        const req = await fetch(`http://localhost:8000/api/moderator/${userId}/sendToAdmin`, options);
+        const res = await req.json();
+        return res;
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 
 export const moderatorService = {
     confirmVote,
     getConfirmVote,
-    blockVote
+    blockVote,
+    sendUserToAdmin
 }

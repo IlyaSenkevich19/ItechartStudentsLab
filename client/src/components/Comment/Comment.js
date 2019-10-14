@@ -2,17 +2,28 @@ import React from 'react';
 import { Alert } from 'reactstrap';
 import { authService } from '../services/authService';
 import { Role } from '../role';
+import { connect } from "react-redux";
+
+import { fetchDate } from '../../actions/actions';
+
+import io from "socket.io-client";
 
 
 class Comment extends React.PureComponent {
     state = {
         visible: true
     }
+    socket = io('http://localhost:8000');
 
     onDismiss = async (voteId, commentId) => {
         const res = await authService.deleteComment(voteId, commentId);
-        console.log(res);
+        // this.socket.emit('SEND_MESSAGE')
+        // console.log(res);
+        // this.socket.on("RECEIVE_MESSAGE", () => {
+        //     this.props.fetchData(`http://localhost:8000/api/vote`);
+        // })
     }
+
 
     render() {
         const comment = this.props.comments;
@@ -34,6 +45,10 @@ class Comment extends React.PureComponent {
     }
 }
 
+const mapDispatchToProps = dispatch => ({
+    fetchData: data => dispatch(fetchDate(data))
+ })
 
 
-export default Comment;
+
+export default connect(null, mapDispatchToProps)(Comment);

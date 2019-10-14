@@ -72,10 +72,16 @@ router.patch('/user/:userId/role', async (req, res) => {
 
 router.get('/:voteId/:commentId/deleteComment', async (req, res) => {
    try {
-      const vote = await Vote.updateOne({ _id: req.params.voteId }, { $unset: { comments: req.params.commentId }  });
-      // const comment = vote.comments;
-      // const comm= comment.filter(com => com._id === req.params.commentId );
-      console.log(vote);
+      await Vote.updateOne({ _id: req.params.voteId }, { $unset: { comments: { _id: req.params.commentId }  }  });
+   } catch (err) {
+      res.status(404);
+   }
+})
+
+router.get('/usersToBlock', async (req, res) => {
+   try {
+    const users =  await User.find({ sendBlockStatus: true });
+    res.send(users);
    } catch (err) {
       res.status(404);
    }

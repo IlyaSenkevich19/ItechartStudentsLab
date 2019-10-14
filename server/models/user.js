@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   blockStatus : { type: Boolean, default: false },
   votedPosts  : [],
   confirmed   : { type: Boolean, default: false },
-  // sendBlockStatus: { type: Boolean, default: false }
+  sendBlockStatus: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model('User', userSchema);

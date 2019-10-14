@@ -38,9 +38,11 @@ class ModeratorPage extends React.PureComponent {
     }
     
     sendUserToAdmin = async userId => {
+        await moderatorService.sendUserToAdmin(userId);
       this.socket.emit('SEND_USER_TO_BLOCK', {
             _id: userId, 
         })
+
     //   await  window.alert('ready');
     }
 

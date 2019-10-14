@@ -15,6 +15,7 @@ class AdminPage extends React.PureComponent {
     state = {
         users: null,
         moderators: null,
+        userToBlock: null,
      
     }
     socket = io('http://localhost:8000');
@@ -33,20 +34,31 @@ class AdminPage extends React.PureComponent {
     componentDidMount = async () => {
         const users = await authService.getAllUsers();
         const moderators = await authService.getAllModerators();
-        this.props.fetchData('http://localhost:8000/api/vote')
+        this.props.fetchData('http://localhost:8000/api/vote');
+        const res = await authService.getUsersFromModerator();
         this.setState({
             users: users,
             moderators: moderators,
+            userToBlock: res
         })
-        this.socket.on("RECEIVE_USERS", async data => {
-            const user = await authService.getUserToBlock(data._id);
-            this.props.getUserToBlock(user)
+        this.socket.on("RECEIVE_USERS", async () => {
+            const res = await authService.getUsersFromModerator();
+            this.setState({
+                userToBlock: res
+            })
         })
+        
     }
 
     makeModerator = async userId => {
         const res = await authService.makeModerator(userId);
         console.log(res);
+        const users = await authService.getAllUsers();
+        const moderators = await authService.getAllModerators();
+        this.setState({
+            users: users,
+            moderators: moderators,
+        })
     }
 
     blockUser = async userId => {
@@ -56,13 +68,13 @@ class AdminPage extends React.PureComponent {
 
 
     render() {
-        const { users, moderators} = this.state;
-        const { usersToBlock } = this.props;
+        const { users, moderators, userToBlock} = this.state;
+        // const { usersToBlock } = this.props;
      
-        if (users === null) { return <div>loading</div> } else {
+        if (users === null && userToBlock === null) { return <div>loading</div> } else {
             const user = users.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button> <button onClick={() => this.makeModerator(user._id)}>make moderator</button></div>);
             const moderator = moderators.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button> <button onClick={() => this.makeModerator(user._id)}>make moderator</button></div>);
-            const usersToBlocks = usersToBlock.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button></div>);
+            const usersToBlocks = userToBlock.map(user => <div key={user._id}>{user.email} <button onClick={() => this.blockUser(user._id)}>blockUser</button></div>);
             return (
                 <div>
                     <button onClick={this.logout} >log out</button>
@@ -110,9 +122,9 @@ class AdminPage extends React.PureComponent {
                             </Card.Header>
                             <Accordion.Collapse eventKey="2">
                                 <Card.Body>
-                                    {usersToBlocks.length === 0 ? <div>There is no users to block</div> :
+                                    {userToBlock=== null ? <div>There is no users to block</div> :
                                         <div>
-                                            {usersToBlocks.length}
+                                            {usersToBlocks}
                                         </div>
                                     }
                                 </Card.Body>

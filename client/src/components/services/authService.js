@@ -125,6 +125,26 @@ const deleteComment = async (voteId, commentId) => {
     }
 }
 
+const getUsersFromModerator = async () => {
+    const requestOptions = {
+        method: "GET",
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }
+    try {
+        const content = await fetch(`http://localhost:8000/api/admin/usersToBlock`, requestOptions);
+        const res = await content.json();
+        return res;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+
 export const authService = {
     getAllUsers,
     getAllModerators,
@@ -132,5 +152,6 @@ export const authService = {
     makeModerator,
     currentUser: getRole(),
     getUserToBlock,
-    deleteComment
+    deleteComment,
+    getUsersFromModerator
 };

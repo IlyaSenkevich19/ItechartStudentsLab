@@ -39,5 +39,18 @@ router.patch('/:voteId/blockVote', verify, async (req, res) => {
     }
  });
 
+router.patch('/:userId/sendToAdmin', verify, async (req, res) => {
+    try {
+       jwt.verify(req.token, 'secretkey', async () => {
+         await User.updateOne({ _id: req.params.userId }, { $set: { sendBlockStatus: true  } })
+          res.Status(200).send(JSON.stringify(`Ready`));
+       })
+    } catch (err) {
+       res.sendStatus(404);
+    }
+ });
+
+
+
  
 module.exports = router;
