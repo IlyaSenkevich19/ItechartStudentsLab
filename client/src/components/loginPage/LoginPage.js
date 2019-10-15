@@ -59,9 +59,12 @@ class LoginPage extends React.PureComponent {
 
     render() {
         const currentUser = authService.currentUser;
+        console.log(currentUser.blockStatus)
        if(currentUser.blockStatus === true) {  
         localStorage.removeItem('currentUser'); 
-        return  <Redirect to='/' />; } 
+        alert("You are blocked")
+          
+        return  <Redirect to='/log-in' /> ; } 
        else if (currentUser.role === Role.Admin) {
             return <Redirect to='/admin' />
         } else if (currentUser.role === Role.Moderator) {

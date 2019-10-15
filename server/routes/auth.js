@@ -10,29 +10,32 @@ const { registrationValidation, loginValidation } = require('../validation');
 
 router.post('/register', async (req, res) => {
     try {
-        await registrationValidation(req.body);
+       const { error } = await registrationValidation(req.body);
+      
         const emailExist = await User.findOne({ email: req.body.email });
         if (emailExist) return res.status(400).send(JSON.stringify("Email already exists"));
+
+        if(error) { res.status(400).send({ error: err.details[0].message })} else {
+           
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(req.body.password, salt)
+    
+            const user = new User({
+                email: req.body.email,
+                password: hashedPassword,
+                date: req.body.date,
+                role: 'user'
+            })
+            await user.save();
+            res.send({ user: user._id });
+       
+           }
     } catch (err) {
         res.status(400).send({ error: err.details[0].message })
     }
 
 
-    try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt)
-
-        const user = new User({
-            email: req.body.email,
-            password: hashedPassword,
-            date: req.body.date,
-            role: 'user'
-        })
-        await user.save();
-        res.send({ user: user._id });
-    } catch (err) {
-        res.status(400).send(err);
-    }
+  
 
 });
 

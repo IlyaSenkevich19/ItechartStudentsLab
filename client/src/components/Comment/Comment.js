@@ -19,10 +19,8 @@ class Comment extends React.PureComponent {
         const res = await authService.deleteComment(voteId, commentId);
         this.socket.emit('SEND_MESSAGE')
         console.log(res);
-        this.props.fetchData(`http://localhost:8000/api/vote`);
-        
+        this.props.fetchData(`http://localhost:8000/api/vote`);   
     }
-
 
     render() {
         const comment = this.props.comments;
