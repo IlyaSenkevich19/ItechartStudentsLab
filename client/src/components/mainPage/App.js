@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from './Header';
 import MainContainer from './MainContainer';
-import Footer from './Footer';
+
 
 
 
@@ -13,7 +13,6 @@ class App extends React.PureComponent {
         <div>
           <Header />
           <MainContainer />
-          <Footer />
         </div>
       );
     }

@@ -17,11 +17,10 @@ class Comment extends React.PureComponent {
 
     onDismiss = async (voteId, commentId) => {
         const res = await authService.deleteComment(voteId, commentId);
-        // this.socket.emit('SEND_MESSAGE')
-        // console.log(res);
-        // this.socket.on("RECEIVE_MESSAGE", () => {
-        //     this.props.fetchData(`http://localhost:8000/api/vote`);
-        // })
+        this.socket.emit('SEND_MESSAGE')
+        console.log(res);
+        this.props.fetchData(`http://localhost:8000/api/vote`);
+        
     }
 
 

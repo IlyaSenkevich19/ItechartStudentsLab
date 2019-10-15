@@ -39,6 +39,11 @@ export const chosenVote = id => ({
     id
 })
 
+export const searchVote = vote => ({
+    type: "SEARCH_VOTE",
+    vote
+})
+
 
 
 
@@ -48,7 +53,7 @@ export const fetchDate = url => dispatch => {
     fetch(url, {
         mode: 'cors',
         headers: {
-            'Content-Type': ["image/png", 'application/json'],
+            'Content-Type': 'application/json',
             'Accept': 'application/json',
             "auth-token": `Bearer ${token}`,
         }

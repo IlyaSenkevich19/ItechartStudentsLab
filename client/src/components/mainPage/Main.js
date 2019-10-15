@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { setVote, fetchDate} from '../../actions/actions';
+import { setVote, fetchDate, searchVote} from '../../actions/actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 import io from "socket.io-client";
 import Notifications from 'react-notify-toast';
@@ -26,6 +26,7 @@ class Main extends React.PureComponent {
         votesPerPage: 3,
         author: null,
         votes: null,
+        searchValue: ''
     }
     socket = io('http://localhost:8000');
 
@@ -67,7 +68,7 @@ class Main extends React.PureComponent {
     }
 
     searchVote = () => {
-        console.log(this.searchVote.value);
+        this.props.searchVote(this.state.searchValue)
     }
 
     render() {
@@ -81,10 +82,10 @@ class Main extends React.PureComponent {
             return (
                 <div className='container-fluid main'>
                 <Notifications/>
-                    <div>Всего голосований: {countVotes}</div>
-                    {authService.currentUser.role !== Role.NonUser ? <Button color="danger" onClick={this.toggle}>Create Voting</Button> : <div></div> }
+                    <div className='main__info'>Total votes: {countVotes}</div>
+                    {authService.currentUser.role !== Role.NonUser ? <div className='creating-btn'><Button color="danger" className='creating-button' onClick={this.toggle}>Create Voting</Button></div> : <div></div> }
                     {authService.currentUser.role === Role.Admin || authService.currentUser.role === Role.Moderator ? <div>
-                        <Input placeholder='Your vote' name='voteText' ref={input => this.searchVote = input}/>
+                        <Input placeholder='Your vote' name='searchValue' value={this.state.searchValue} onChange={this.handleInputChange} />
                         <button onClick={this.searchVote}>find vote</button>
                     </div> : <div></div>}
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
@@ -100,7 +101,7 @@ class Main extends React.PureComponent {
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
-                    <VotingList   voteList={currentVotes} />
+                    <VotingList voteList={currentVotes} />
                     <PaginationPage votesPerPage={votesPerPage} paginate={this.paginate}  />
                 </div>
             )
@@ -109,9 +110,11 @@ class Main extends React.PureComponent {
 
 
 
+
 const mapDispatchToProps = dispatch => ({
-    setVote: (content) => dispatch(setVote(content)),
-    fetchData: data => dispatch(fetchDate(data))
+    setVote: content => dispatch(setVote(content)),
+    fetchData: data => dispatch(fetchDate(data)),
+    searchVote: vote => dispatch(searchVote(vote))
 })
 
 export default connect(null, mapDispatchToProps)(Main);

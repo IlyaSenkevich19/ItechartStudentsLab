@@ -7,7 +7,8 @@ const initialState = {
     totalVotesCount: 0,
     currentPage: 1,
     author: 'none',
-    chosenVote: null
+    chosenVote: null,
+    searchVote: ''
 }
 
 const getDataSuccess = (state, type) => ({
@@ -51,6 +52,11 @@ const chosenVote = (state, id) => ({
 
 })
 
+const searchVote = (state, vote) => ({
+    ...state,
+    searchVote: vote
+})
+
 const votes = (state = initialState, action) => {
     switch (action.type) {
         case "SET_VOTE":
@@ -65,6 +71,8 @@ const votes = (state = initialState, action) => {
             return getVotedPosts(state, action.payload); 
         case "CHOSEN_VOTE": 
             return chosenVote(state, action.id); 
+        case "SEARCH_VOTE": 
+            return searchVote(state, action.vote); 
         default:
             return state
     }

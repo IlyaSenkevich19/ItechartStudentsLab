@@ -1,5 +1,6 @@
 import React from 'react';
 import history from '../../history/history';
+import '../../App.css'
 
 class Header extends React.PureComponent {
 
@@ -23,8 +24,8 @@ class Header extends React.PureComponent {
 
     render() {
         return (
-            <div>
-                <nav className='navbar navbar-expand-md navbar-light bg-light sticky-top'>
+            <div >
+                <nav className='navbar'>
                     <div className='container-fluid'>
                         <div href='#' className='navbar-brad'>Online Voting System</div>
                         <div className='ml-auto buttons'>

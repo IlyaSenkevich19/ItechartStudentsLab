@@ -2,14 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Main from './Main';
+import io from "socket.io-client";
+import { setVote, fetchDate, searchVote} from '../../actions/actions';
 
 class MainContainer extends React.PureComponent {
 
     state = {
         votesList: [], 
     }
+    socket = io('http://localhost:8000');
 
     filterVotes = e => {
+       
         const { votes } = this.props;
         const btn = e.target.name;
      
@@ -26,17 +30,28 @@ class MainContainer extends React.PureComponent {
             this.setState({ votesList: complete })
         }
     }
+    componentDidMount = () => {
+        this.socket.on("RECEIVE_MESSAGE", () => {
+            this.props.fetchData(`http://localhost:8000/api/vote`);
+        })
+    }
 
     render() {
         let { votesList } = this.state;
-        const { votes } = this.props;
-        const numberVotes = votesList.length;
+        const { votes, searchVote } = this.props;
+        const numberVotes = votes.length;
+        const searchVotes = votesList.filter(vote => vote.text.includes(searchVote) )
         return (
             <div className='container-fluid main'>
-                <button type="button" name='ALL' onClick={this.filterVotes} className="btn btn-primary">Все Голосования</button>
-                <button type="button" name="ACTIVE" onClick={this.filterVotes} className="btn btn-primary">Активные голосования</button>
-                <button type="button" name='COMPLETED' onClick={this.filterVotes} className="btn btn-primary">Законченные голосования</button>
-                <Main  votes={votesList} numberVotes={numberVotes} />
+                <div className='btns'>
+                <button type="button" name='ALL' onClick={this.filterVotes} className="btn filter-btn btn-primary">All Votings</button>
+                <button type="button" name="ACTIVE" onClick={this.filterVotes} className="btn filter-btn btn-primary">Active Votings</button>
+                <button type="button" name='COMPLETED' onClick={this.filterVotes} className="btn filter-btn btn-primary">Finished Votings</button>
+                </div>
+                <Main  
+                votes={votes} 
+                numberVotes={numberVotes}
+                 />
             </div>
         )
     }
@@ -44,8 +59,12 @@ class MainContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
     votes: state.voteslist.items,
+    searchVote: state.voteslist.searchVote
   
+})
+const mapDispatchToProps = dispatch => ({
+    fetchData: data => dispatch(fetchDate(data)),
 })
 
 
-export default connect(mapStateToProps, null)(MainContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

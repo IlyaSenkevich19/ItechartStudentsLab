@@ -20,8 +20,8 @@ class SignUpPage extends React.PureComponent {
                 body: JSON.stringify({ email: values.email, password: values.password, date: values.date })
             });
             const content = await rawResponse.json();
-            // notify.show(content.details[0].message);
-            if (content) {
+            
+            if (!content.error) {
                 const fetchEmail = await fetch("http://localhost:8000/api/user/email", {
                     method: 'POST',
                     mode: 'cors',
@@ -34,8 +34,8 @@ class SignUpPage extends React.PureComponent {
                 const res = await fetchEmail.json();
                 notify.show(res.msg)
                 setTimeout(()=>history.push('/log-in'), 4000);
-                    
-                
+            } else {
+                notify.show(content.error);
             }
         } catch (error) {
             console.log(error)

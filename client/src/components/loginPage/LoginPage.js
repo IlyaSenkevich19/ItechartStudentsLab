@@ -1,8 +1,6 @@
 import React from 'react';
 
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { notify } from 'react-notify-toast';
-import Notifications from 'react-notify-toast';
 
 import history from '../../history/history'
 // import { connect } from 'react-redux';
@@ -45,12 +43,6 @@ class LoginPage extends React.PureComponent {
             body: JSON.stringify({ email: user.email, password: user.pass })
         });
         const content = await rawResponse.json();
-        console.log(content);
-        // if (content.error) {
-        //     // notify.show("Confirm your email please");
-        //     alert("Confirm your email please");
-        //     localStorage.clear();
-        // } else {
             localStorage.setItem('currentUser', JSON.stringify(content));
             window.location.reload();
          } catch(err) {
@@ -78,6 +70,7 @@ class LoginPage extends React.PureComponent {
             return <Redirect to='/main' />
         } else {
             return (
+               
                 <Form className='login-form'>
                    
                     <h1 className='text-center'>
@@ -107,12 +100,13 @@ class LoginPage extends React.PureComponent {
                         Log in
                     </Button>
                     <div className='text-center'>
-                        <a onClick={this.onSignUpPage} href='/sign-up'>Sign up</a>
+                        <a className='login__links' onClick={this.onSignUpPage} href='/sign-up'>Sign up</a>
                     </div>
-                    <div className='text-center'>
-                        <a onClick={this.onMainPage} href='/'>Back to Main Page</a>
+                    <div  className='text-center'>
+                        <a className='login__links' onClick={this.onMainPage} href='/'>Back to Main Page</a>
                     </div>
                 </Form>
+               
             );
         }
     }
