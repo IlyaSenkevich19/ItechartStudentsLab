@@ -1,4 +1,4 @@
-
+import { host } from '../../constants/constants'
 const createVote = async (voteText, endDate, startDate, author) => {
     const token = localStorage.getItem('currentUser')
     const options = {
@@ -12,7 +12,7 @@ const createVote = async (voteText, endDate, startDate, author) => {
         body: JSON.stringify({ voteText: voteText, endDate: endDate, startDate: startDate, author: author })
     } 
     try {
-        const rawResponse = await fetch('http://localhost:8000/api/vote', options)
+        const rawResponse = await fetch(`${host}/api/vote`, options)
         const content = await rawResponse.json();
         return content;
     } catch (err) {
@@ -33,7 +33,7 @@ const createComment = async (commentText, date, author, voteId) => {
         body: JSON.stringify({ text: commentText, date: date, author: author, voteId: voteId  })
     } 
     try {
-        const req = await fetch('http://localhost:8000/api/comment', options);
+        const req = await fetch(`${host}/api/comment`, options);
         const res = await req.json();
         return res;
     } catch(err) {
@@ -51,7 +51,7 @@ const toVote = async (currentUserId, currentVoteId) => {
         }
     }
     try {
-        const req = await fetch(`http://localhost:8000/api/${currentVoteId}/${currentUserId}/toVote`, options);
+        const req = await fetch(`${host}/api/${currentVoteId}/${currentUserId}/toVote`, options);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -66,7 +66,7 @@ const statusVoteChanged = async currentVoteId => {
         }
     }
     try {
-        const req = await fetch(`http://localhost:8000/api/${currentVoteId}/statusChanged`, options);
+        const req = await fetch(`${host}/api/${currentVoteId}/statusChanged`, options);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -83,7 +83,7 @@ const getVotedPosts = async (currentUserId) => {
         }
     }
     try {
-        const req = await fetch(`http://localhost:8000/api/${currentUserId}/votedPosts`, options);
+        const req = await fetch(`${host}/api/${currentUserId}/votedPosts`, options);
         const res = await req.json();
         return res;
     } catch (err) {

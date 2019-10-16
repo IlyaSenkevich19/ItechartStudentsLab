@@ -1,7 +1,8 @@
 import React from 'react';
 import RCG from 'react-captcha-generator';
 import { connect } from 'react-redux';
-import history from '../../history/history'
+import history from '../../history/history';
+import { host } from '../../constants/constants'
 
 class Captcha extends React.PureComponent {
 
@@ -32,7 +33,7 @@ class Captcha extends React.PureComponent {
     }
 
     submit = async () => {
-        const fetchEmail = await fetch("http://localhost:8000/api/user/email/captcha", {
+        const fetchEmail = await fetch(`${host}/api/user/email/captcha`, {
             method: 'POST',
             mode: 'cors',
             headers: {

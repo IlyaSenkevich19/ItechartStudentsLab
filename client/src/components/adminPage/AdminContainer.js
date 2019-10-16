@@ -6,12 +6,13 @@ import { connect } from 'react-redux';
 import { getUsersToBlock } from '../../actions/actions';
 import io from "socket.io-client";
 import AdminPage from './AdminPage'
+import { host } from '../../constants/constants'
 
 
 class AdminContainer extends React.PureComponent {
 
   
-    socket = io('http://localhost:8000');
+    socket = io(`${host}`);
 
    
 

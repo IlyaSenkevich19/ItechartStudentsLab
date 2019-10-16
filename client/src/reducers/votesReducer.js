@@ -1,4 +1,12 @@
-
+import { 
+    SET_VOTE,
+    GET_DATA_SUCCESS,
+    SET_CURRENT_PAGE, 
+    CREATE_COMMENT, 
+    VOTED_POSTS, 
+    CHOSEN_VOTE, 
+    SEARCH_VOTE
+} from '../constants/ActionTypes'
 
 const initialState = {
     items: [],
@@ -29,7 +37,6 @@ const createComment = (state, data) => {
     vote.comments.unshift(contentData);
     const newData = [];
     newData.unshift(contentData)
-   
     return {
         ...state,
         newComments: newData
@@ -59,19 +66,19 @@ const searchVote = (state, vote) => ({
 
 const votes = (state = initialState, action) => {
     switch (action.type) {
-        case "SET_VOTE":
+        case SET_VOTE:
             return getNewItems(state, action)
-        case 'GET_DATA_SUCCESS':
+        case GET_DATA_SUCCESS:
             return getDataSuccess(state, action.payload);
-        case 'SET_CURRENT_PAGE': 
+        case SET_CURRENT_PAGE: 
             return setCurrentPage(state,action.currentPage);
-        case 'CREATE_COMMENT':
+        case CREATE_COMMENT:
             return createComment(state, action); 
-        case "VOTED_POSTS": 
+        case VOTED_POSTS: 
             return getVotedPosts(state, action.payload); 
-        case "CHOSEN_VOTE": 
+        case CHOSEN_VOTE: 
             return chosenVote(state, action.id); 
-        case "SEARCH_VOTE": 
+        case SEARCH_VOTE: 
             return searchVote(state, action.vote); 
         default:
             return state

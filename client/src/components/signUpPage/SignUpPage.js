@@ -4,13 +4,14 @@ import Notifications from 'react-notify-toast';
 import { notify } from 'react-notify-toast';
 import history from '../../history/history'
 
-import FormSignUp from './FormSignUp'
+import FormSignUp from './FormSignUp';
+import { host } from '../../constants/constants'
 
 class SignUpPage extends React.PureComponent {
 
     handleSubmit = async (values) => {
         try {
-            const rawResponse = await fetch('http://localhost:8000/api/user/register', {
+            const rawResponse = await fetch(`${host}/api/user/register`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -22,7 +23,7 @@ class SignUpPage extends React.PureComponent {
             const content = await rawResponse.json();
             
             if (!content.error) {
-                const fetchEmail = await fetch("http://localhost:8000/api/user/email", {
+                const fetchEmail = await fetch(`${host}/api/user/email`, {
                     method: 'POST',
                     mode: 'cors',
                     headers: {

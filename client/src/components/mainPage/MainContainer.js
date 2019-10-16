@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import Main from './Main';
 import io from "socket.io-client";
 import { setVote, fetchDate, searchVote} from '../../actions/actions';
+import { host } from '../../constants/constants'
 
 class MainContainer extends React.PureComponent {
 
     state = {
         votesList: [], 
     }
-    socket = io('http://localhost:8000');
+    socket = io(`${host}`);
 
     filterVotes = e => {
        
@@ -32,7 +33,7 @@ class MainContainer extends React.PureComponent {
     }
     componentDidMount = () => {
         this.socket.on("RECEIVE_MESSAGE", () => {
-            this.props.fetchData(`http://localhost:8000/api/vote`);
+            this.props.fetchData(`${host}/api/vote`);
         })
     }
 

@@ -8,6 +8,7 @@ import { Button, Accordion, Card } from 'react-bootstrap';
 
 import { fetchDate, getUsersToBlock } from '../../actions/actions';
 import io from "socket.io-client";
+import { host } from '../../constants/constants'
 
 
 class AdminPage extends React.PureComponent {
@@ -18,7 +19,7 @@ class AdminPage extends React.PureComponent {
         userToBlock: null,
      
     }
-    socket = io('http://localhost:8000');
+    socket = io(`${host}`);
 
     logout = () => {
         localStorage.removeItem('currentUser');
@@ -34,7 +35,7 @@ class AdminPage extends React.PureComponent {
     componentDidMount = async () => {
         const users = await authService.getAllUsers();
         const moderators = await authService.getAllModerators();
-        this.props.fetchData('http://localhost:8000/api/vote');
+        this.props.fetchData(`${host}/api/vote`);
         const res = await authService.getUsersFromModerator();
         this.setState({
             users: users,

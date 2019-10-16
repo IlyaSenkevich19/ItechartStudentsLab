@@ -1,4 +1,5 @@
 import jwt_decode from 'jwt-decode';
+import { host } from '../../constants/constants'
 
 const getAllUsers = async () => {
     const token = localStorage.getItem('currentUser');
@@ -12,7 +13,7 @@ const getAllUsers = async () => {
         },
     }
     try {
-        const content = await fetch('http://localhost:8000/api/admin/users', requestOptions);
+        const content = await fetch(`${host}/api/admin/users`, requestOptions);
         const users = await content.json();
         return users;
     } catch (err) {
@@ -32,7 +33,7 @@ const getAllModerators = async () => {
         },
     }
     try {
-        const content = await fetch('http://localhost:8000/api/admin/moderators', requestOptions);
+        const content = await fetch(`${host}/api/admin/moderators`, requestOptions);
         const users = await content.json();
         return users;
     } catch (err) {
@@ -51,7 +52,7 @@ const blockUser = async userId => {
     };
 
     try {
-        const req = await fetch(`http://localhost:8000/api/admin/users/${userId}/block`, options);
+        const req = await fetch(`${host}/api/admin/users/${userId}/block`, options);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -69,7 +70,7 @@ const makeModerator = async userId => {
         }
     };
     try {
-        const req = await fetch(`http://localhost:8000/api/admin/user/${userId}/role`, options);
+        const req = await fetch(`${host}/api/admin/user/${userId}/role`, options);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -99,7 +100,7 @@ const getUserToBlock = async userId => {
         },
     }
     try {
-        const content = await fetch(`http://localhost:8000/api/admin/${userId}/user`, requestOptions);
+        const content = await fetch(`${host}/api/admin/${userId}/user`, requestOptions);
         const users = await content.json();
         return users;
     } catch (err) {
@@ -117,7 +118,7 @@ const deleteComment = async (voteId, commentId) => {
         },
     }
     try {
-        const content = await fetch(`http://localhost:8000/api/admin/${voteId}/${commentId}/deleteComment`, requestOptions);
+        const content = await fetch(`${host}/api/admin/${voteId}/${commentId}/deleteComment`, requestOptions);
         const res = await content.json();
         return res;
     } catch (err) {
@@ -135,7 +136,7 @@ const getUsersFromModerator = async () => {
         },
     }
     try {
-        const content = await fetch(`http://localhost:8000/api/admin/usersToBlock`, requestOptions);
+        const content = await fetch(`${host}/api/admin/usersToBlock`, requestOptions);
         const res = await content.json();
         return res;
     } catch (err) {

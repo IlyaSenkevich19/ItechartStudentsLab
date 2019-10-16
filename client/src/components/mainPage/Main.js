@@ -12,6 +12,7 @@ import VotingList from './VotingList';
 import {userService} from '../services/userService'
 import {authService} from '../services/authService';
 import { Role } from '../role';
+import { host } from '../../constants/constants'
 
 
 
@@ -28,7 +29,7 @@ class Main extends React.PureComponent {
         votes: null,
         searchValue: ''
     }
-    socket = io('http://localhost:8000');
+    socket = io(`${host}`);
 
     toggle = () => {
         this.setState(prevState => ({
@@ -60,7 +61,7 @@ class Main extends React.PureComponent {
     }
 
     componentDidMount = () => {
-        this.props.fetchData(`http://localhost:8000/api/vote`);
+        this.props.fetchData(`${host}/api/vote`);
         this.socket.on("RECEIVE_VOTE", data => {
             const content = data.content
             this.props.setVote(content);

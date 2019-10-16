@@ -6,6 +6,7 @@ import { setComments, fetchDate } from '../../actions/actions';
 import { authService } from '../services/authService';
 import io from "socket.io-client";
 import { Role } from '../role';
+import { host } from '../../constants/constants'
 
 class CommentForm extends React.Component {
 
@@ -13,7 +14,7 @@ class CommentForm extends React.Component {
         comment: ''
     }
 
-    socket = io('http://localhost:8000');
+    socket = io(`${host}`);
 
     handleChange = e => {
         this.setState({
@@ -38,7 +39,7 @@ class CommentForm extends React.Component {
 
     componentDidMount = () => {
         this.socket.on("RECEIVE_MESSAGE", () => {
-            this.props.fetchData(`http://localhost:8000/api/vote`);
+            this.props.fetchData(`${host}/api/vote`);
         })
     }
 

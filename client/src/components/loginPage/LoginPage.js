@@ -9,6 +9,7 @@ import { Redirect } from 'react-router-dom';
 import { authService } from '../services/authService';
 import { Role } from '../role'
 // import jwt_decode from 'jwt-decode';
+import { host } from '../../constants/constants'
 
 class LoginPage extends React.PureComponent {
 
@@ -33,7 +34,7 @@ class LoginPage extends React.PureComponent {
 
     login = async user => {
         try {
-        const rawResponse = await fetch('http://localhost:8000/api/user/login', {
+        const rawResponse = await fetch(`${host}/api/user/login`, {
             method: 'POST',
             mode: 'cors',
             headers: {

@@ -1,4 +1,4 @@
-
+import { host } from '../../constants/constants'
 const getConfirmVote = async () => {
     const token = localStorage.getItem('currentUser');
     const options = {
@@ -9,7 +9,7 @@ const getConfirmVote = async () => {
         }
     };
     try {
-        const req = await fetch(`http://localhost:8000/api/moderator/vote/toConfirm`, options);
+        const req = await fetch(`${host}/api/moderator/vote/toConfirm`, options);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -27,7 +27,7 @@ const confirmVote = async (voteId) => {
         }
     };
     try {
-        const req = await fetch(`http://localhost:8000/api/moderator/${voteId}/toConfirm`, options);
+        const req = await fetch(`${host}/api/moderator/${voteId}/toConfirm`, options);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -45,7 +45,7 @@ const blockVote = async (voteId) => {
         }
     };
     try {
-        const req = await fetch(`http://localhost:8000/api/moderator/${voteId}/blockVote`, options);
+        const req = await fetch(`${host}/api/moderator/${voteId}/blockVote`, options);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -62,7 +62,7 @@ const sendUserToAdmin = async userId => {
         }
     };
     try {
-        const req = await fetch(`http://localhost:8000/api/moderator/${userId}/sendToAdmin`, options);
+        const req = await fetch(`${host}/api/moderator/${userId}/sendToAdmin`, options);
         const res = await req.json();
         return res;
     } catch (err) {

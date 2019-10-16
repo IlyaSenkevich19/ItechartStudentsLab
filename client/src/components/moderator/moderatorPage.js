@@ -9,6 +9,7 @@ import io from "socket.io-client";
 
 import { authService } from '../services/authService';
 import { moderatorService } from '../services/moderatorService.js';
+import { host } from '../../constants/constants'
 
 
 class ModeratorPage extends React.PureComponent {
@@ -17,7 +18,7 @@ class ModeratorPage extends React.PureComponent {
         users: null,
         toConfirm: null
     }
-    socket = io('http://localhost:8000');
+    socket = io(`${host}`);
 
     logout = () => {
         localStorage.removeItem('currentUser');

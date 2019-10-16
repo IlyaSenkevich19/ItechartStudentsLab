@@ -1,7 +1,4 @@
-
-
 module.exports = {
-
   confirm: id => ({
     subject: 'React Confirm Email',
     html: `

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import { authService } from './services/authService';
+import { authService } from '../services/authService';
 
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
     <Route {...rest} render={props => {
@@ -15,8 +15,6 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
         if(currentUser.role === 'user' && currentUser.blockStatus === true) {
             return <Redirect to={{ pathname: '/log-in'}} />
         }
-
-
         return <Component {...props} />
     }} />
 )

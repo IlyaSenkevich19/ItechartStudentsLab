@@ -7,19 +7,20 @@ import { connect } from "react-redux";
 import { fetchDate } from '../../actions/actions';
 
 import io from "socket.io-client";
+import { host } from '../../constants/constants'
 
 
 class Comment extends React.PureComponent {
     state = {
         visible: true
     }
-    socket = io('http://localhost:8000');
+    socket = io(`${host}`);
 
     onDismiss = async (voteId, commentId) => {
         const res = await authService.deleteComment(voteId, commentId);
         this.socket.emit('SEND_MESSAGE')
         console.log(res);
-        this.props.fetchData(`http://localhost:8000/api/vote`);   
+        this.props.fetchData(`${host}/api/vote`);   
     }
 
     render() {
