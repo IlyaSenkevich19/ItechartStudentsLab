@@ -2,10 +2,10 @@ import React from 'react';
 import Notifications from 'react-notify-toast';
 
 import { notify } from 'react-notify-toast';
-import history from '../../history/history'
+import history from '../history/history'
 
-import FormSignUp from './FormSignUp';
-import { host } from '../../constants/constants'
+import FormSignUp from '../components/signUpPage/FormSignUp';
+import { host } from '../constants/constants'
 
 class SignUpPage extends React.PureComponent {
 

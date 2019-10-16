@@ -1,22 +1,20 @@
 import React from 'react';
 import Title from './Title';
-import CommentForm from './CommentForm';
+import CommentFormContainer from '../../containers/CommentFormContainer';
 import CommentList from './CommentList';
 
 
 
-class CommentArea extends React.PureComponent {
+const CommentArea = props => {
 
-
-    render() {
         return (
             <div>
               <Title />  
-              <CommentList vote={this.props.vote}  comments={this.props.comments} />
-              <CommentForm comments={this.props.comments}  voteId={this.props.voteId} />
+              <CommentList vote={props.vote}  comments={props.comments} />
+              <CommentFormContainer comments={props.comments}  voteId={props.voteId} />
             </div>
         )
     }
-}
+
 
 export default CommentArea;

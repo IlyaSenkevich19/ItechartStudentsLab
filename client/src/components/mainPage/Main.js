@@ -1,16 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { setVote, fetchDate, searchVote} from '../../actions/actions';
+import { setVote, fetchDate, searchVote } from '../../actions/actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 import io from "socket.io-client";
 import Notifications from 'react-notify-toast';
 
-// import CreateVoting from '../createVotingPage/CreateVoting';
-import PaginationPage from './Pagination'
+import PaginationPageContainer from '../../containers/PaginationContainer'
 import VotingList from './VotingList';
-import {userService} from '../services/userService'
-import {authService} from '../services/authService';
+import { userService } from '../services/userService'
+import { authService } from '../services/authService';
 import { Role } from '../role';
 import { host } from '../../constants/constants'
 
@@ -80,34 +79,34 @@ class Main extends React.PureComponent {
         const indexOfFirstVote = indexOfLastVote - votesPerPage;
         const currentVotes = votes.slice(indexOfFirstVote, indexOfLastVote);
         const closeBtn = <button className="close" onClick={this.toggle}></button>;
-            return (
-                <div className='container-fluid main'>
-                <Notifications/>
-                    <div className='main__info'>Total votes: {countVotes}</div>
-                    {authService.currentUser.role !== Role.NonUser ? <div className='creating-btn'><Button color="danger" className='creating-button' onClick={this.toggle}>Create Voting</Button></div> : <div></div> }
-                    {authService.currentUser.role === Role.Admin || authService.currentUser.role === Role.Moderator ? <div>
-                        <Input placeholder='Your vote' name='searchValue' value={this.state.searchValue} onChange={this.handleInputChange} />
-                        <button onClick={this.searchVote}>find vote</button>
-                    </div> : <div></div>}
-                    <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle} close={closeBtn}>Сreate your vote</ModalHeader>
-                        <ModalBody>
-                            <Label>Enter your vote</Label>
-                            <Input placeholder='Your vote' name='voteText' onChange={this.handleInputChange} value={this.state.voteText} />
-                            <Label>Voting end date</Label>
-                            <Input placeholder='date' type='date' onChange={this.handleInputChange} name='endDate' value={this.state.endDate} />
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="primary" onClick={this.createVoting}>Create</Button>{' '}
-                            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        </ModalFooter>
-                    </Modal>
-                    <VotingList voteList={currentVotes} />
-                    <PaginationPage votesPerPage={votesPerPage} paginate={this.paginate}  />
-                </div>
-            )
-        }
+        return (
+            <div className='container-fluid main'>
+                <Notifications />
+                <div className='main__info'>Total votes: {countVotes}</div>
+                {authService.currentUser.role !== Role.NonUser ? <div className='creating-btn'><Button color="danger" className='creating-button' onClick={this.toggle}>Create Voting</Button></div> : <div></div>}
+                {authService.currentUser.role === Role.Admin || authService.currentUser.role === Role.Moderator ? <div>
+                    <Input placeholder='Your vote' name='searchValue' value={this.state.searchValue} onChange={this.handleInputChange} />
+                    <button onClick={this.searchVote}>find vote</button>
+                </div> : <div></div>}
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle} close={closeBtn}>Сreate your vote</ModalHeader>
+                    <ModalBody>
+                        <Label>Enter your vote</Label>
+                        <Input placeholder='Your vote' name='voteText' onChange={this.handleInputChange} value={this.state.voteText} />
+                        <Label>Voting end date</Label>
+                        <Input placeholder='date' type='date' onChange={this.handleInputChange} name='endDate' value={this.state.endDate} />
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.createVoting}>Create</Button>{' '}
+                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+                <VotingList voteList={currentVotes} />
+                <PaginationPageContainer votesPerPage={votesPerPage} paginate={this.paginate} />
+            </div>
+        )
     }
+}
 
 
 

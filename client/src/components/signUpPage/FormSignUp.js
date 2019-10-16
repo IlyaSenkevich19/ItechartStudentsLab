@@ -4,7 +4,7 @@ import { Button, Form, FormGroup, Label } from 'reactstrap';
 
 import { Field, reduxForm } from 'redux-form';
 import history from '../../history/history';
-import { myInput } from '../Field/index';
+import { myInput } from './Field/index';
 import { validate } from '../../validation/index';
 
 class FormSignUp extends React.PureComponent {
