@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import './App.css';
 
-import AdminContainer from './components/adminPage/AdminContainer'
+import AdminContainer from './containers/AdminContainer'
 import App from './components/mainPage/App';
 import LoginPageContainer from './containers/LoginPageContainer';
 import SignUpPage from './containers/SignUpPage';
