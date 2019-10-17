@@ -26,6 +26,7 @@ class ModeratorPageContainer extends React.PureComponent {
         history.push('/log-in');
         window.location.reload();
     }
+    
     toMainPage = () => {
         history.push('/main');
     }

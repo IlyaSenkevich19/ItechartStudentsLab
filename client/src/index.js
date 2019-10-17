@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import history from './history/history';
 import { Provider } from 'react-redux';
 import store from './store/store';
-import './App.css'
+import './App.css';
 
 import AdminContainer from './components/adminPage/AdminContainer'
 import App from './components/mainPage/App';

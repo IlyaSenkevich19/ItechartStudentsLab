@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import history from '../history/history';
-import { host } from '../constants/constants';
+import { captchaService } from '../components/services/captchaService'
 import Captcha from '../components/CaptchaPage/Captcha';
 
 
@@ -12,7 +12,6 @@ class CaptchaContainer extends React.PureComponent {
         email: '',
         statusCaptcha: false
     }
-
 
     result = text => {
         this.setState({
@@ -34,17 +33,7 @@ class CaptchaContainer extends React.PureComponent {
     }
 
     submit = async () => {
-        const fetchEmail = await fetch(`${host}/api/user/email/captcha`, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: this.emailEnter.value, voteId: this.props.voteId })
-        });
-        const res = await fetchEmail.json();
-        
+        const res = await captchaService.fetchEmail(this.emailEnter.value, this.props.voteId);
         alert('Confirm your email', res);
         history.replace('/');
     }
@@ -71,7 +60,5 @@ class CaptchaContainer extends React.PureComponent {
 const mapStateToProps = state => ({
     voteId: state.voteslist.chosenVote,
 })
-
-
 
 export default connect(mapStateToProps, null)(CaptchaContainer);

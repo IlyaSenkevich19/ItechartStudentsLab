@@ -4,7 +4,7 @@ import history from '../history/history'
 import { Redirect } from 'react-router-dom';
 import { authService } from '../components/services/authService';
 import { Role } from '../components/role'
-import { host } from '../constants/constants';
+
 
 import LoginPage from '../components/loginPage/LoginPage'
 
@@ -31,19 +31,9 @@ class LoginPageContainer extends React.PureComponent {
 
     login = async user => {
         try {
-        const rawResponse = await fetch(`${host}/api/user/login`, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: user.email, password: user.pass })
-        });
-        const content = await rawResponse.json();
-            localStorage.setItem('currentUser', JSON.stringify(content));
+            await authService.login(user.email, user.pass);
             window.location.reload();
-         } catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -58,12 +48,13 @@ class LoginPageContainer extends React.PureComponent {
     render() {
         const currentUser = authService.currentUser;
         const { email, password } = this.state;
-       if(currentUser.blockStatus === true) {  
-          localStorage.removeItem('currentUser'); 
-          alert("You are blocked")
-          
-        return  <Redirect to='/log-in' /> ; } 
-       else if (currentUser.role === Role.Admin) {
+        if (currentUser.blockStatus === true) {
+            localStorage.removeItem('currentUser');
+            alert("You are blocked")
+
+            return <Redirect to='/log-in' />;
+        }
+        else if (currentUser.role === Role.Admin) {
             return <Redirect to='/admin' />
         } else if (currentUser.role === Role.Moderator) {
             return <Redirect to='/moderator' />
@@ -71,18 +62,18 @@ class LoginPageContainer extends React.PureComponent {
             return <Redirect to='/main' />
         } else {
             return (
-               
-              <div>
-                  <LoginPage 
-                   onInputChange={this.onInputChange}
-                   confirmEmail={this.confirmEmail}
-                   onSignUpPage={this.onSignUpPage}
-                   onMainPage={this.onMainPage}
-                   email={email}
-                   password={password}
-                  />
-              </div>
-               
+
+                <div>
+                    <LoginPage
+                        onInputChange={this.onInputChange}
+                        confirmEmail={this.confirmEmail}
+                        onSignUpPage={this.onSignUpPage}
+                        onMainPage={this.onMainPage}
+                        email={email}
+                        password={password}
+                    />
+                </div>
+
             );
         }
     }

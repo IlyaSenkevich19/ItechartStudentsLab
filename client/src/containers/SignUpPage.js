@@ -2,39 +2,21 @@ import React from 'react';
 import Notifications from 'react-notify-toast';
 
 import { notify } from 'react-notify-toast';
-import history from '../history/history'
+import history from '../history/history';
+import { authService } from '../components/services/authService'
 
 import FormSignUp from '../components/signUpPage/FormSignUp';
-import { host } from '../constants/constants'
+
 
 class SignUpPage extends React.PureComponent {
 
-    handleSubmit = async (values) => {
+    handleSubmit = async values => {
         try {
-            const rawResponse = await fetch(`${host}/api/user/register`, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email: values.email, password: values.password, date: values.date })
-            });
-            const content = await rawResponse.json();
-            
+            const content = await authService.register(values);
             if (!content.error) {
-                const fetchEmail = await fetch(`${host}/api/user/email`, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email: values.email })
-                })
-                const res = await fetchEmail.json();
+                const res = await authService.fetchEmail(values.email);
                 notify.show(res.msg)
-                setTimeout(()=>history.push('/log-in'), 4000);
+                setTimeout(() => history.push('/log-in'), 4000);
             } else {
                 notify.show(content.error);
             }
