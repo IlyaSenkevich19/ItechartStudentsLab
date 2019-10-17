@@ -1,4 +1,4 @@
-import { host } from '../constants/constants';
+import { host } from '../../constants/constants';
 
 const fetchEmail = async (email, voteId) => {
     const fetchEmail = await fetch(`${host}/api/user/email/captcha`, {

@@ -1,17 +1,8 @@
 import jwt_decode from 'jwt-decode';
-import { host } from '../../constants/constants'
+import { host, tokenReqOptions, reqOptions  } from '../../constants/constants';
 
 const getAllUsers = async () => {
-    const token = localStorage.getItem('currentUser');
-    const requestOptions = {
-        method: "GET",
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            "auth-token": `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-    }
+    const requestOptions = tokenReqOptions("GET");
     try {
         const content = await fetch(`${host}/api/admin/users`, requestOptions);
         const users = await content.json();
@@ -22,16 +13,7 @@ const getAllUsers = async () => {
 }
 
 const getAllModerators = async () => {
-    const token = localStorage.getItem('currentUser');
-    const requestOptions = {
-        method: "GET",
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            "auth-token": `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-    }
+    const requestOptions = tokenReqOptions("GET");
     try {
         const content = await fetch(`${host}/api/admin/moderators`, requestOptions);
         const users = await content.json();
@@ -42,17 +24,9 @@ const getAllModerators = async () => {
 }
 
 const blockUser = async userId => {
-    const token = localStorage.getItem('currentUser');
-    const options = {
-        method: 'PATCH',
-        headers: {
-            "Content-Type": "application/json",
-            "auth-token": `Bearer ${token}`,
-        }
-    };
-
+    const requestOptions = tokenReqOptions("PATCH");
     try {
-        const req = await fetch(`${host}/api/admin/users/${userId}/block`, options);
+        const req = await fetch(`${host}/api/admin/users/${userId}/block`, requestOptions);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -61,16 +35,9 @@ const blockUser = async userId => {
 }
 
 const makeModerator = async userId => {
-    const token = localStorage.getItem('currentUser');
-    const options = {
-        method: 'PATCH',
-        headers: {
-            "Content-Type": "application/json",
-            "auth-token": `Bearer ${token}`,
-        }
-    };
+    const requestOptions = tokenReqOptions("PATCH");
     try {
-        const req = await fetch(`${host}/api/admin/user/${userId}/role`, options);
+        const req = await fetch(`${host}/api/admin/user/${userId}/role`, requestOptions);
         const res = await req.json();
         return res;
     } catch (err) {
@@ -89,16 +56,7 @@ const getRole = () => {
 }
 
 const getUserToBlock = async userId => {
-    const token = localStorage.getItem('currentUser');
-    const requestOptions = {
-        method: "GET",
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            "auth-token": `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-    }
+    const requestOptions = tokenReqOptions("GET");
     try {
         const content = await fetch(`${host}/api/admin/${userId}/user`, requestOptions);
         const users = await content.json();
@@ -109,14 +67,7 @@ const getUserToBlock = async userId => {
 }
 
 const deleteComment = async (voteId, commentId) => {
-    const requestOptions = {
-        method: "GET",
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-    }
+    const requestOptions = reqOptions("GET");
     try {
         const content = await fetch(`${host}/api/admin/${voteId}/${commentId}/deleteComment`, requestOptions);
         const res = await content.json();
@@ -127,14 +78,7 @@ const deleteComment = async (voteId, commentId) => {
 }
 
 const getUsersFromModerator = async () => {
-    const requestOptions = {
-        method: "GET",
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-    }
+    const requestOptions = reqOptions("GET");
     try {
         const content = await fetch(`${host}/api/admin/usersToBlock`, requestOptions);
         const res = await content.json();

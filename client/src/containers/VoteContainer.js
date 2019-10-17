@@ -9,8 +9,6 @@ import Vote from '../components/mainPage/Vote'
 
 import history from '../history/history'
 
-
-
 class VoteContainer extends React.PureComponent {
 
     state = {
