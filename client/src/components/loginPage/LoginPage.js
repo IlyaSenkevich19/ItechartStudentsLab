@@ -34,10 +34,10 @@ const LoginPage = props => {
                 Log in
                     </Button>
             <div className='text-center'>
-                <a className='login__links' onClick={onSignUpPage} href='/sign-up'>Sign up</a>
+                <div className='login__links' onClick={onSignUpPage} href='/sign-up'>Sign up</div>
             </div>
             <div className='text-center'>
-                <a className='login__links' onClick={onMainPage} href='/'>Back to Main Page</a>
+                <div className='login__links' onClick={onMainPage} href='/'>Back to Main Page</div>
             </div>
         </Form>
 

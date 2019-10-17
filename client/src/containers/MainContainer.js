@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Main from './Main';
+import Main from '../components/mainPage/Main';
 import io from "socket.io-client";
-import { setVote, fetchDate, searchVote} from '../../actions/actions';
-import { host } from '../../constants/constants'
+import { setVote, fetchDate, searchVote} from '../actions/actions';
+import { host } from '../constants/constants'
 
 class MainContainer extends React.PureComponent {
 

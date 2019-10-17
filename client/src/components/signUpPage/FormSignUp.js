@@ -68,7 +68,7 @@ class FormSignUp extends React.PureComponent {
                     Sign Up
                 </Button>
                 <div className='text-center'>
-                    <a onClick={this.onLoginPage} href='/log-in'>Log In</a>
+                    <div className='links' onClick={this.onLoginPage} href='/log-in'>Log In</div>
                 </div>
             </Form>
         );

@@ -5,7 +5,7 @@ import '../../App.css'
 class Header extends React.PureComponent {
 
     onLoginPage = () => {
-        localStorage.removeItem('currentUser');
+       localStorage.removeItem('currentUser');
         history.push('/log-in');
         window.location.reload();
     }

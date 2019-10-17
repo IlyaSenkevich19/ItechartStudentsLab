@@ -64,7 +64,6 @@ class AdminContainer extends React.PureComponent {
 
     toMainPage = () => {
         history.push('/main');
-        window.location.reload();
     }
 
     render() {

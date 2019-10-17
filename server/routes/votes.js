@@ -3,13 +3,15 @@ const router = express.Router();
 const paginate = require('jw-paginate');
 const verify = require('./verifyToken');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user')
+const User = require('../models/user');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const Vote = require('../models/vote');
 
 router.get('/vote', verify, async (req, res, next) => {
     try {
-        jwt.verify(req.token, 'secretkey', async () => {
+        jwt.verify(req.token, process.env.TOKEN_SECRET, async () => {
             const vote = await Vote.find().sort({ date: -1 });
             res.send(vote);
         })
@@ -32,7 +34,7 @@ router.patch('/:voteId/statusChanged',  async (req, res) => {
 
 router.patch('/:voteId/:user/toVote', verify, async (req, res) => {
     try {
-        jwt.verify(req.token, 'secretkey', async () => {
+        jwt.verify(req.token, process.env.TOKEN_SECRET, async () => {
           await Vote.updateOne({ _id: req.params.voteId }, { $push: { votedUsers: req.params.user }, $inc: { count: 1 }  });
           await User.updateOne({ _id: req.params.user }, { $push: { votedPosts: req.params.voteId } })
           res.status(200).send({ status: true});

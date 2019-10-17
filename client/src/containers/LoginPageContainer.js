@@ -51,10 +51,8 @@ class LoginPageContainer extends React.PureComponent {
         if (currentUser.blockStatus === true) {
             localStorage.removeItem('currentUser');
             alert("You are blocked")
-
             return <Redirect to='/log-in' />;
-        }
-        else if (currentUser.role === Role.Admin) {
+        } else if (currentUser.role === Role.Admin) {
             return <Redirect to='/admin' />
         } else if (currentUser.role === Role.Moderator) {
             return <Redirect to='/moderator' />

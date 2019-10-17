@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const dotenv = require('dotenv');
+dotenv.config();
 const User = require('../models/user');
 const Vote = require('../models/vote');
 const jwt = require('jsonwebtoken');
@@ -6,7 +8,7 @@ const verify = require('./verifyToken');
 
 router.get('/users', verify, async (req, res) => {
    try {
-      jwt.verify(req.token, 'secretkey', async () => {
+      jwt.verify(req.token, process.env.TOKEN_SECRET, async () => {
          const users = await User.find();
          const sortedUsers = users.filter((user) => user.role === 'user' ? true : false);
          res.send(sortedUsers);
@@ -18,7 +20,7 @@ router.get('/users', verify, async (req, res) => {
 
 router.get('/:userId/user', verify, async (req, res) => {
    try {
-      jwt.verify(req.token, 'secretkey', async () => {
+      jwt.verify(req.token, process.env.TOKEN_SECRET, async () => {
          const user = await User.findOne({_id: req.params.userId});
         
          res.send(user);
@@ -30,7 +32,7 @@ router.get('/:userId/user', verify, async (req, res) => {
 
 router.get('/moderators', verify, (req, res) => {
    try {
-      jwt.verify(req.token, 'secretkey', async () => {
+      jwt.verify(req.token, process.env.TOKEN_SECRET, async () => {
          const users = await User.find();
          const sortedUsers = users.filter((user) => user.role === 'moderator' ? true : false);
          res.send(sortedUsers);
